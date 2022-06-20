@@ -1,0 +1,21 @@
+<div class="box row col-6">
+  <!-- <div class="search-bar col-lg-6 col-sm-12 d-flex justify-content-between">
+    <div class="search-bar-container col-10">
+      <i class='bx bx-search'></i>
+      <input name="serach" type="text" class="search-bar w-100" placeholder="Buscar">
+    </div>
+    <div class="">
+      <button>
+        <i class='bx bx-slider-alt'></i>
+      </button>
+    </div>
+  </div> -->
+
+  <mat-form-field class="w-100">
+    <mat-label>Filter</mat-label>
+    <input matInput 
+    (keyup)="applyFilter($event)" 
+    placeholder="Ejemplo: Persa" #input>
+  </mat-form-field>
+</div>
+

@@ -1,0 +1,120 @@
+<div class="container box1">
+  <h4>Edita tu mascota</h4>
+
+  <form class="row" [formGroup]="form" (ngSubmit)="save()">
+    <!-- PetName -->
+    <mat-form-field class="col-12">
+      <mat-label>Nombre</mat-label>
+      <input value="{{petVM.name}}" matInput formControlName="name" required>
+      <mat-error *ngIf="name?.invalid">El nombre es requerido</mat-error>
+    </mat-form-field>
+
+    <!-- Pet Description -->
+    <mat-form-field class="col-12">
+      <mat-label>Descripción</mat-label>
+      <textarea value="{{petVM.bio}}" matInput formControlName="bio"></textarea>
+      <mat-error *ngIf="bio?.invalid">Máximo de 250 caracteres</mat-error>
+    </mat-form-field>
+
+    <!-- Pet Location -->
+    <mat-form-field appearance="standard" class="col-12">
+      <mat-label>Ubicación</mat-label>
+      <input matInput formControlName="location" required
+      value="{{petVM.street}} {{petVM.number}}, {{petVM.city}}, {{petVM.state}}">
+      <mat-error *ngIf="location?.invalid">La ubicación es requerida</mat-error>
+    </mat-form-field>
+ 
+    <!-- Pet Type -->
+    <mat-form-field class="col-4"> 
+      <mat-label>Especie</mat-label>
+      <mat-select required formControlName="petType">
+        <mat-option value="1">Gato</mat-option>
+        <mat-option value="2">Perro</mat-option>  
+      </mat-select>
+      <mat-error *ngIf="petType?.invalid">El tipo de mascota es requerida</mat-error>
+    </mat-form-field> 
+
+    <!-- Pet Age -->
+    <mat-form-field class="col-4">
+      <mat-label>Edad</mat-label>
+      <mat-select required formControlName="age">
+        <mat-option value="0">Cachorro</mat-option>
+        <mat-option value="1">Adulto</mat-option>  
+      </mat-select>
+      <mat-error *ngIf="age?.invalid">Debe especificar la edad</mat-error>
+    </mat-form-field>
+
+    <!-- Pet Weight -->
+    <mat-form-field class="col-4">
+      <mat-label>Peso</mat-label>
+      <input matInput value="{{petVM.weight}}" type="number" formControlName="weight">
+    </mat-form-field>
+
+    <!-- Pet Breed -->
+    <mat-form-field class="col-4">
+      <mat-label>Raza</mat-label>
+      <mat-select formControlName="breed"> 
+        <mat-option *ngFor="let b of breedList.$values" value="{{b.id}}">
+          {{b.breed1}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+     
+    <!-- Pet Color -->  
+    <div class="col-4">
+      <mat-button-toggle-group formControlName="color">
+        <mat-button-toggle value="1">
+          <i class='bx bxs-circle white'></i>
+        </mat-button-toggle>
+        <mat-button-toggle value="2">
+          <i class='bx bxs-circle black'></i>
+        </mat-button-toggle>
+        <mat-button-toggle value="6">
+          <i class='bx bxs-circle grey'></i>
+        </mat-button-toggle>
+        <mat-button-toggle value="5">
+          <i class='bx bxs-circle cream'></i>
+        </mat-button-toggle>
+        <mat-button-toggle value="4">
+          <i class='bx bxs-circle brown'></i>
+        </mat-button-toggle>
+        <mat-button-toggle value="3">
+          <i class='bx bxs-circle yellow'></i>
+        </mat-button-toggle>
+        <mat-button-toggle value="7">
+          <i class='bx bxs-circle orange'></i>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <!-- Pet sex --> 
+    <div class="col-2">
+      <mat-button-toggle-group #group="matButtonToggleGroup" formControlName="sex">
+
+        <mat-button-toggle value="1" aria-label="female">
+          <i class='bx bx-female-sign'></i>
+        </mat-button-toggle>
+
+        <mat-button-toggle value="0" aria-label="male">
+          <i class='bx bx-male-sign'></i>
+        </mat-button-toggle>
+
+      </mat-button-toggle-group>
+    </div>
+
+    <!-- Adopcion -->
+    <mat-radio-group class="col-2" formControlName="isAdopted">
+      <mat-radio-button value="1">Adoptado</mat-radio-button>
+      <mat-radio-button value="0">En Adopción</mat-radio-button>
+    </mat-radio-group>
+    
+    <!-- Submit Btn -->
+    <div class="row col-12 d-flex justify-content-center mt-4">
+      <button class="btn1 btn col-4 white" type="submit">ACTUALIZAR</button>
+    </div>
+
+  </form>
+  <div>
+    {{form.value | json}}
+  </div>
+</div>

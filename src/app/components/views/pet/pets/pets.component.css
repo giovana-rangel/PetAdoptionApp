@@ -1,0 +1,86 @@
+mat-button-toggle-group{
+  border: none;
+}
+
+.mat-button-toggle-checked {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.active{
+  background: var(--primary-color);
+  color: #FFF;
+}
+
+.pet-card{
+  height: 350px;
+  background: #FFF;
+  position: relative;
+  border-radius: 1.5rem;
+}
+
+.pet-data{
+  position:absolute;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
+}
+
+.pet-location{
+  font-size: .8rem;
+}
+
+.pet-icon{
+  color: var(--primary-color);
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.example-card{
+  border-radius: 1.5rem !important;
+}
+
+img{
+  max-height: 300px;
+}
+
+mat-card{
+  width: 330px;
+  height: 430px;
+}
+
+mat-card-title{
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+mat-card-subtitle{
+  font-size: .8rem;
+}
+
+.bx-slider-alt, .bx-refresh, .bx-x{
+  background: #FFF;
+  color: var(--primary-color);
+  padding: 8px;
+  cursor: pointer;
+}
+
+.bx-slider-alt, .bx-refresh{
+  border-radius: 5px;
+}
+
+.bx-x{
+  border-radius: 50%;
+}
+
+mat-accordion > *{
+  background-color: var(--light1) !important;
+  box-shadow: none !important;
+}
+.mat-expansion-panel-header, .mat-expanded{
+  height: auto;
+}
+
+mat-expansion-panel-header{
+  height: 10px;
+}

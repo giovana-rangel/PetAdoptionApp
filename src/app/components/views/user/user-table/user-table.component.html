@@ -1,0 +1,61 @@
+<div>
+  <!-- User Table Filter -->
+  <mat-form-field appearance="standard" class="w-100">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="search" #input>
+  </mat-form-field> 
+
+  <!-- User Table -->
+  <table class="mat-elevation-z8 w-100"
+  mat-table 
+  [dataSource]="usersDataSource" 
+  matSort (matSortChange)="announceSortChange($event)">
+
+    <!-- User Column -->
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+      <td mat-cell *matCellDef="let u"><small>{{u.username}}</small></td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let u"><small>{{u.email}}</small></td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+      <td mat-cell *matCellDef="let u">
+        <div *ngIf="u.isActive == 1; else disabled" class="status">
+          <i class='bx bxs-check-circle'></i>
+        </div>
+        <ng-template #disabled>
+          <i class='bx bxs-x-circle'></i>
+        </ng-template>
+      </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Acciones </th>
+      <td mat-cell *matCellDef="let u">
+        <a (click)="goToUserProfile(u.id)" class="actions-link" matTooltip="Show">
+          <i class='bx bxs-show'></i>
+        </a> 
+        <a (click)="goToEditUser(u.id)" class="actions-link" matTooltip="Editar">
+          <i class='bx bxs-pencil'></i>
+        </a> 
+        <a (click)="deleteUser(u.id)" class="actions-link" matTooltip="Eliminar">
+          <i class='bx bxs-trash-alt delete' ></i>
+        </a> 
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [length]="usersDataSource.length" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+ 
+</div>

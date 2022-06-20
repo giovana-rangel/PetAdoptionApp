@@ -1,0 +1,134 @@
+<div class="col-12 my-5">
+  
+  <!-- Filters -->
+  <form autocomplete="off" class="row col-8">
+    <!-- Filter By Raza -->
+    <mat-form-field appearance="standard" class="col-10">
+      <mat-label>Buscar Mascotas</mat-label>
+      <input
+      type="text" 
+      matInput 
+      placeholder="Buscar por raza" 
+      (keyup.enter)="search()"
+      #searchAll>
+    </mat-form-field>
+  
+    <div class="col-1" (click)="accordion.openAll()">
+      <i class='bx bx-slider-alt' mat-raised-button matTooltip="filtros"></i>
+    </div>
+    <!-- Others Filters -->
+    <div class="col-1" (click)="reset()">
+      <i class='bx bx-refresh' mat-raised-button matTooltip="resetear"></i>
+    </div>
+  </form>
+
+  <div class="col-8">
+    <mat-accordion class="example-headers-align" multi>
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+        </mat-expansion-panel-header>
+  
+        <div class="w-100 d-flex justify-content-end" (click)="accordion.closeAll()">
+          <i class='bx bx-x'></i>
+        </div>
+        <div class="w-100 row">
+          <div class="col-2">
+            <mat-button-toggle-group #group="matButtonToggleGroup" 
+            [(ngModel)]="sex" 
+            [ngModelOptions]="{standalone: true}"
+            (click)="searchBySex()">
+      
+              <mat-button-toggle value="true" aria-label="female">
+                <i class='bx bx-female-sign'></i>
+              </mat-button-toggle>
+        
+              <mat-button-toggle value="false" aria-label="male">
+                <i class='bx bx-male-sign'></i>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+          <!-- Select Color -->
+          <div class="col-3">
+            <mat-button-toggle-group (click)="searchByColor()" [(ngModel)]="color" [ngModelOptions]="{standalone: true}">
+              <mat-button-toggle value="1">
+                <i class='bx bxs-circle white'></i>
+              </mat-button-toggle>
+              <mat-button-toggle value="2">
+                <i class='bx bxs-circle black'></i>
+              </mat-button-toggle>
+              <mat-button-toggle value="6">
+                <i class='bx bxs-circle grey'></i>
+              </mat-button-toggle>
+              <mat-button-toggle value="5">
+                <i class='bx bxs-circle cream'></i>
+              </mat-button-toggle>
+              <mat-button-toggle value="4">
+                <i class='bx bxs-circle brown'></i>
+              </mat-button-toggle>
+              <mat-button-toggle value="3">
+                <i class='bx bxs-circle yellow'></i>
+              </mat-button-toggle>
+              <mat-button-toggle value="7">
+                <i class='bx bxs-circle orange'></i>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+        </div>
+        
+        
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  
+  <!-- Filter By Pet Type -->
+  <div class="col-12 mt-4">
+    <mat-button-toggle-group class="col-6">
+      <mat-button-toggle class="col-3" checked value="1">
+        Gato <i class='bx bxs-cat'></i>
+      </mat-button-toggle>
+      <mat-button-toggle class="col-3" value="2">
+        Perro <i class='bx bxs-dog' ></i>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+ 
+  <!-- Pets Container -->
+  <div class="mt-5 row" >
+    <div class="col-lg-4 col-sm-2 mb-5" *ngFor="let p of pets.$values">
+      <!-- Pet Card -->
+      <mat-card class="example-card">    
+        <img mat-card-image src="https://lasillarotarm.blob.core.windows.net.optimalcdn.com/images/2019/05/28/memekieroanvorguesagatitos7.jpg">
+        
+        <!-- Card Data -->
+        <mat-card-content class="d-flex justify-content-between" >
+          
+          <!-- Card Info -->
+          <div class="col-10">
+            <mat-card-title (click)="goToPetProfile(p.id)">
+              {{p.name | titlecase}}
+            </mat-card-title>
+
+            <mat-card-subtitle 
+            *ngIf="p.street != '' && p.city != '' && p.number != '0' ">
+              <a href="#">
+                <i class='bx bxs-map'></i>
+                {{p.street}}, {{p.number}}, {{p.city}}, {{p.state}}             
+              </a>
+            </mat-card-subtitle>
+          </div>
+
+          <!-- Card Icon -->
+          <div *ngIf="p.sex == 0; else female">
+            <i class='bx bx-male-sign pet-icon'></i>
+          </div>
+          <div>
+            <ng-template #female>
+              <i class='bx bx-female-sign pet-icon'></i>
+            </ng-template>
+          </div>  
+        </mat-card-content>
+      </mat-card>
+    </div> 
+  </div>
+  
+</div>

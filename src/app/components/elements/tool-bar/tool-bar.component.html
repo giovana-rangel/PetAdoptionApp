@@ -1,0 +1,33 @@
+<div class="tool-bar">
+
+  <button 
+  class="tool-bar-btn"
+  matTooltip="Publicar Mascota" 
+  (click)=" goToCreatePet()">
+    <i class='bx bxs-plus-square'></i>
+  </button>
+
+  <button 
+  class="tool-bar-btn"
+  matTooltip="Notificaciones"
+  (click)="toggleSidebarVisiblility()">
+    <i matBadge="4" matBadgeColor="primary" class='bx bxs-bell'></i>
+  </button>
+
+  <ng-template>
+    <button class="tool-bar-btn">
+      <i class='bx bx-menu'></i>
+    </button>
+  </ng-template>
+</div>
+
+<div class="sidebar"
+[ngClass]="{'hidden':showSidebar===true}"
+>
+  <div class="sidebar-content">
+    <p class="info">A <strong>username</strong> le ha gustado su mascota</p>
+    <p class="info">A <strong>username</strong> le ha gustado su mascota</p>
+    <p class="info">A <strong>username</strong> le ha gustado su mascota</p>
+    <p class="info">A <strong>username</strong> le ha gustado su mascota</p>
+  </div>
+</div>

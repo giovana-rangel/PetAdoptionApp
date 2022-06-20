@@ -1,0 +1,51 @@
+i{
+  color: #4689fd;
+  font-size: 1rem;
+  margin-right: 5px;
+}
+.img-container{
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
+  border-radius: 1rem;
+}
+.img{
+  width: 150px;
+}
+
+.square-box{
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
+  border-radius: 1rem;
+  background: var(--light2);
+}
+
+.badge{
+  font-size: .6rem !important;
+  font-weight: 400;
+  color: var(--primary-color);
+}
+
+.btn-add{
+  background: var(--light2);
+  padding: 10px;
+  border-radius: 5px;
+  color: #FFF;
+  font-weight: 800;
+  font-size: 1.5rem;
+}
+
+.bx-female-sign, 
+.bx-male-sign{
+  font-size: 2rem;
+  font-weight: 800;
+}

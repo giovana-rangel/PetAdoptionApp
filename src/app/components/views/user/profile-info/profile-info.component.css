@@ -1,0 +1,19 @@
+
+i{
+  color: #4689fd;
+  font-size: 1rem;
+  margin-right: 5px;
+}
+.img-container{
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2rem;
+  border-radius: 1rem;
+}
+.img{
+  width: 150px;
+}

@@ -1,0 +1,26 @@
+.main-menu
+{
+  width: 100%;
+  position: relative;
+}
+
+nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  position: fixed;
+  background: #FFF;
+  padding: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100000;
+}
+
+.main-menu-link i 
+{
+  font-size: 2rem;
+  text-decoration: none;
+  color: #474747;
+  cursor: pointer;
+}

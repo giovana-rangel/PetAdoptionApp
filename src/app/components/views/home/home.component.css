@@ -1,0 +1,8 @@
+.mat-drawer{
+  background: var(--light1) !important;
+  padding-top: 4rem;
+}
+
+.mat-drawer-side{
+  border: none;
+}

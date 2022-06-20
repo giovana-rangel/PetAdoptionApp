@@ -1,12 +1,7 @@
-.box{
-  background: #f2f3fb;
-  height: 100vh;
-}
-
 .example-container {
-  width: 100%;
-  height: 100%;
-  background: #f2f3fb;
+  width: 500px;
+  height: 300px;
+  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .example-sidenav-content {

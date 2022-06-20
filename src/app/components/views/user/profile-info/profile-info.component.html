@@ -1,0 +1,33 @@
+<div class="border-bottom">
+  <div class="box row mr-2 col-12 d-flex align-items-center">
+    <div class="mt-4">
+      <div class="img-container">
+        <img src="../assets/img/image-not-found.png" class="img">
+      </div>
+    </div>
+
+    <div class="info mt-4">
+      <p class="h5">{{user.username}}</p>
+      <div class="d-flex align-items-center">
+        <i class='bx bxs-map'></i>
+        <a href="#" class="text-secondary"> 
+          {{user.street}} {{user.number}},
+          {{user.city}},
+          {{user.state}}
+        </a>
+      </div>
+    </div> 
+  </div>
+  
+  <div class="mb-4">
+    <p class="text-secondary mt-4">{{(user.bio)}}</p>
+    <a href="#" class="text-secondary">
+      <i class='bx bx-link-external'></i>
+      www.webexample.com
+    </a>
+  </div>
+
+  <button class="btn2 mb-4 col-6">
+    Editar Perfil
+  </button>
+</div>

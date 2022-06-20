@@ -1,0 +1,17 @@
+<div class="row col-8 d-flex align-items-center" style="width: 100%;">
+  <!-- Card -->
+  <mat-card class="col-10">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title (click)="goToUserProfile(pet.userId)">{{pet.username}}</mat-card-title>
+      <mat-card-subtitle>Dueño</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <!-- Button Chat -->
+  <div class="col-2 d-flex justify-content-end">
+    <button>
+      <i class='bx bxs-message-square-dots'></i>
+    </button>
+  </div>
+
+</div>
