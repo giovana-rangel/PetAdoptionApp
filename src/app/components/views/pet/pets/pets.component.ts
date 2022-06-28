@@ -1,21 +1,28 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
 import { NavigateService } from '../../../../shared/services/navigate.service';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { PetEntries } from 'src/app/shared/interfaces/pets';
+import { FavPet } from '../../../../shared/Models/favPet';
 
 @Component({
   selector: 'app-pets',
   templateUrl: './pets.component.html',
   styleUrls: ['./pets.component.css']
 })
+
 export class PetsComponent implements OnInit {
+  userLogged:number = 1;
   pets:any;
   subscription:Subscription;
   color:string='';
   sex:string;
+  favPet = new FavPet();
 
   @ViewChild("searchAll") searchAll!:ElementRef<HTMLInputElement>;
   @ViewChild(MatAccordion) accordion: MatAccordion;
@@ -64,6 +71,12 @@ export class PetsComponent implements OnInit {
   reset(){
     this.data();
   }
+
+  // onFav(petId:number){
+  //   this.favPet.petIdFk= petId;
+  //   this.favPet.userIdFk = this.userLogged;
+  //   this.service.postFavPet(this.favPet);
+  // }
 
   //navigate
   goToPetProfile(id:number){

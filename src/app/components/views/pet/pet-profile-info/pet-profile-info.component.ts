@@ -1,34 +1,45 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PetViewModel } from 'src/app/shared/Models/petViewModel';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 
-import { Treatment } from 'src/app/shared/Models/treatment';
-import { Vacine } from 'src/app/shared/Models/vacine';
+//services
 import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
 import { NavigateService } from '../../../../shared/services/navigate.service';
+
+// Models and interfaces
+import { ITreatments } from 'src/app/shared/interfaces/treatment';
+import { IVacines } from 'src/app/shared/interfaces/vacine';
+import { P } from 'src/app/shared/interfaces/pets';
+import { Treatment} from 'src/app/shared/Models/treatment';
+import { Vacine } from '../../../../shared/Models/vacine';
 
 @Component({
   selector: 'app-pet-profile-info',
   templateUrl: './pet-profile-info.component.html',
   styleUrls: ['./pet-profile-info.component.css']
 })
-export class PetProfileInfoComponent implements OnInit {
-  id:number;
-  pet:any;
- 
-  //http calls response
-  treatments:any;
-  vacines:any;
-  //ngForms values
-  treatmentLabel:string='';
-  treatmentDate:any='';
 
-  vacineLabel:string=''
-  vacinePlaceAplication:string='';
-  vacineDate:string='';
+export class PetProfileInfoComponent implements OnInit {
+  @ViewChild('mapsUrl') mapsUrl: ElementRef;
+  url:string;
+
+  pet:P;
+  treatments:ITreatments;
+  vacines:IVacines;
+  petId:number = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+  p:Observable<P> = this.service.getPetData(this.petId); 
   
-  treatment:Treatment;
-  vacine:Vacine = new Vacine();
+  tForm = new FormGroup({
+    treatmentLabel: new FormControl('',[Validators.required]),
+    treatmentDate: new FormControl('',[Validators.required]),
+  });
+
+  vForm = new FormGroup({
+    vacineLabel: new FormControl('',[Validators.required]),
+    vacineDate: new FormControl('',[Validators.required]),
+    vacinePlace: new FormControl('',[Validators.required]),
+  });
   
   constructor
   (
@@ -38,52 +49,90 @@ export class PetProfileInfoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-    this.getPet();
-    this.getTreatments();
-    this.getVacines();
+    this.petId = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+    this.getPetData();
+    this.getTreatmentsByPetId()
+    this.getVacinesByPetId();
   }
 
-  //service calls
+  //service data calls
+  getPetData(){
+    this.service.getPetData(this.petId).subscribe((res)=>{
+      this.pet = res as P;
+    });
+  }
   
-  saveTreatment(petId:number){
-    if(petId != null){
-      this.treatment.treatmentLabel = this.treatmentLabel;
-      this.treatment.aplicationDate = this.treatmentDate;
-      this.treatment.petIdFk = petId;
+  getTreatmentsByPetId(){
+    this.service.getTreatmentsByPetId(this.petId).subscribe((res)=>{
+      this.treatments = res as ITreatments;  
+    })
+  }
+  
+  getVacinesByPetId(){
+    this.service.getVacinesByPetId(this.petId).subscribe((res)=>{
+      this.vacines = res as IVacines;
+    })
+  }
 
-      this.service.postTreatment(this.treatment).subscribe(data =>{console.log(data);});
+  saveTreatment(){
+    if(this.petId != 0){
+      
+      let t = new Treatment();
+      t.petIdFk = this.petId;
+      t.treatmentLabel = this.tForm.get('treatmentLabel')?.value;
+      t.aplicationDate = this.tForm.get('treatmentDate')?.value;
+      try{
+        this.service.postTreatment(t); 
+      }catch(err){
+        console.error(err);
+      }     
+    }else{
+      return;
+    }
+  }
+
+  saveVacine(){
+    if(this.petId != null){
+      if(!this.vForm.invalid){
+        let v = new Vacine();
+        v.petIdFk = this.petId;
+        v.vacineLabel = this.vForm.get('vacineLabel')?.value;
+        v.aplicationDate = this.vForm.get('vacineDate')?.value;
+        v.aplicationPlace = this.vForm.get('vacinePlace')?.value;
+
+        try{
+          this.service.postVacine(v);
+        }catch(err){
+          console.error(err);
+        } 
+      }   
     }
     return;
   }
 
-  saveVacine(petId:number){
-    if(petId != null){
-      this.vacine.vacineLabel = this.vacineLabel;
-      this.vacine.aplicationDate = this.vacineDate;
-      this.vacine.aplicationPlace = this.vacinePlaceAplication;
-      this.vacine.petIdFk = petId;
-
-      console.log(this.treatment);
+  onDelete(id:number, model:string){
+    if(model == 't'){
+      console.log('delete treatment');
+    }else if (model == 'v') {
+      console.log('delete vacine');
     }
-    return;
   }
 
-  getPet():void {
-    this.pet = this.service.getPet(this.id);
-  }
-
-  getTreatments(){
-    this.treatment = this.service.getTreatmentsByPetId(this.id);
-  }
-
-  getVacines(){
-    this.vacines = this.service.getVacinesByPetId(this.id);
+  setGoogleMapsURL(){
+    let text = this.mapsUrl.nativeElement.textContent;
+    let arr = text.split(" ");
+    this.url = arr.join("+");
   }
 
   //navigate
-
-  goToEditPet(id:number){
-    this._navigate.goToEditPet(id);
+  goToEditPet(){
+    this._navigate.goToEditPet(this.petId);
   }
+
+  // == get form control data ==//
+  get treatmentLabel(){return this.tForm.get('treatmentLabel');}
+  get treatmentDate(){return this.tForm.get('treatmentDate');}
+  get vacineLabel(){return this.vForm.get('vacineLabel');}
+  get vacineDate(){return this.vForm.get('vacineDate');}
+  get vacinePlace(){return this.vForm.get('vacinePlace');}
 }

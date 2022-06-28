@@ -84,3 +84,18 @@ mat-accordion > *{
 mat-expansion-panel-header{
   height: 10px;
 }
+
+.favBtn{
+  background: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.favBtn i{
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.active{
+  color:red;
+}

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { P } from 'src/app/shared/interfaces/pets';
 import { NavigateService } from 'src/app/shared/services/navigate.service';
-import { PetViewModel } from '../../../shared/Models/petViewModel';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-contact-owner',
@@ -8,19 +9,27 @@ import { PetViewModel } from '../../../shared/Models/petViewModel';
   styleUrls: ['./contact-owner.component.css']
 })
 export class ContactOwnerComponent implements OnInit {
-  @Input() pet:PetViewModel;
+  @Input() p:Observable<P>;
+  pet:P;
+
   constructor
   (
     private navigate:NavigateService,
   ) { }
 
   ngOnInit(): void {
+    this.getData();
+  }
+
+  getData(){
+    this.p.subscribe((res)=>{
+      this.pet = res as P;
+      console.log(this.pet);
+    })
   }
 
   //navigate
-
-  goToUserProfile(id:number){
+  goToUserProfile(id:any){
     this.navigate.goToUserProfile(id);
   }
-
 }

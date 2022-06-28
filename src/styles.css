@@ -26,6 +26,10 @@ button
 html, body { height: 100%; }
 body { margin: 0;}
 
+i{
+  font-size: 2rem !important;
+}
+
 .box1{
   background: var(--light1);
   padding-top: 4rem;

@@ -3,8 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Pet } from 'src/app/shared/Models/pet';
 import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
-import { Treatment } from '../../../../shared/Models/treatment';
-import { Vacine } from '../../../../shared/Models/vacine';
 import { UtilsService } from '../../../../shared/services/utils.service';
 import { PetViewModel } from '../../../../shared/Models/petViewModel';
 
@@ -15,6 +13,8 @@ import { PetViewModel } from '../../../../shared/Models/petViewModel';
 })
 
 export class EditPetComponent implements OnInit {
+  id:number = Number(this.activatedRoute.snapshot.paramMap.get('id'));;
+
   form = new FormGroup({
     name: new FormControl('',[Validators.required]),
     bio: new FormControl('',[Validators.maxLength(250)]),
@@ -26,13 +26,19 @@ export class EditPetComponent implements OnInit {
     location: new FormControl('',[Validators.required]),
     petType: new FormControl('',[Validators.required]),
     isAdopted: new FormControl('0',[Validators.required]),
+    treatmentLabel: new FormControl('',[Validators.required]),
+    treatmentDate: new FormControl('',[Validators.required]),
   });
+
+  fv = new FormGroup({
+    label: new FormControl('',[Validators.required]),
+    place: new FormControl('',[Validators.required]),
+    date: new FormControl('',[Validators.required])
+  });
+
   
-  id:number;
   petVM:PetViewModel = new PetViewModel();
   pet:Pet = new Pet();
-  treatments:Treatment;
-  vacines:Vacine;
   breedList:any;
   Msg:string;
 
@@ -45,9 +51,9 @@ export class EditPetComponent implements OnInit {
   { }
 
   ngOnInit(): void {
-    this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.getBreedList();
     this.getPet();
+    // this.getTreatments();
   }
 
   getPet():void {
@@ -61,13 +67,13 @@ export class EditPetComponent implements OnInit {
     });
   }
 
-  getTreatments(){
-    this.treatments = this.service.getTreatmentsByPetId(this.id);
-  }
+  // getTreatments(){
+  //   this.treatments = this.service.getTreatmentsByPetId(this.id);
+  // }
 
-  getVacines(){
-    this.vacines = this.service.getVacinesByPetId(this.id);
-  }
+  // getVacines(){
+  //   this.vacines = this.service.getVacinesByPetId(this.id);
+  // }
 
   save(){
     try{

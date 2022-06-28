@@ -8,6 +8,11 @@ export class NavigateService {
 
   constructor(private router:Router) { }
 
+  //=== Home ===//
+  GoToHome(){
+    this.router.navigate([`/`]);
+  }
+  
   //=== User ===//
   goToUserProfile(id:number){
     this.router.navigate([`/user-profile/${id}`]);

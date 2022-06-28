@@ -6,6 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Subscription } from 'rxjs';
 import { NavigateService } from '../../../../shared/services/navigate.service';
+import { MatSort, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-pet-table',
@@ -13,13 +14,14 @@ import { NavigateService } from '../../../../shared/services/navigate.service';
   styleUrls: ['./pet-table.component.css']
 })
 export class PetTableComponent implements OnInit {
+  dataSource:any;
   pets:any;
-  petsDataSource:any;
   subscription:Subscription;
 
-  displayedColumns: string[] = ['pet', 'location', 'sex', 'actions'];
+  displayedColumns: string[] = ['pet', 'treatments', 'vacines', 'actions'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor
   (
@@ -36,16 +38,16 @@ export class PetTableComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.petsDataSource.paginator = this.paginator;
-    //this.petsDataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   // === HTTP calls ===//
   data():void {
-    this._service.getListPets().subscribe((res:any)=>{
+    this._service.getPetFullData().subscribe((res:any)=>{
       this.pets = res;
       console.log(res);
-      this.petsDataSource = new MatTableDataSource(this.pets.$values);
+      this.dataSource = new MatTableDataSource(this.pets.$values);
     });
   }
 
@@ -57,7 +59,15 @@ export class PetTableComponent implements OnInit {
   //=== Angular Material ==//
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.petsDataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  announceSortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
   }
 
   //=== navigate ===//

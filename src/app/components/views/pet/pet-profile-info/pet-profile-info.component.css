@@ -1,6 +1,5 @@
 i{
   color: #4689fd;
-  font-size: 1rem;
   margin-right: 5px;
 }
 .img-container{
@@ -46,6 +45,9 @@ i{
 
 .bx-female-sign, 
 .bx-male-sign{
-  font-size: 2rem;
   font-weight: 800;
+}
+
+.bx-x{
+  cursor: pointer;
 }

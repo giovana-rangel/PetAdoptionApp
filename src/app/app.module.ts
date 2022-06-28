@@ -8,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { environment } from './../environments/environment';
 import { GeoapifyGeocoderAutocompleteModule } from '@geoapify/angular-geocoder-autocomplete';
+import { NgApexchartsModule } from 'ng-apexcharts';
 //components
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './components/elements/main-menu/main-menu.component';
@@ -27,6 +28,8 @@ import { ContactOwnerComponent } from './components/elements/contact-owner/conta
 import { CreatePetComponent } from './components/views/pet/create-pet/create-pet.component';
 import { PetTableComponent } from './components/views/pet/pet-table/pet-table.component';
 import { TestComponent } from './components/views/test/test.component';
+import { ChartsComponent } from './components/views/admin-dash/charts/charts.component';
+import { TopFavPetsComponent } from './components/views/admin-dash/top-fav-pets/top-fav-pets.component';
 
 
 @NgModule({
@@ -48,7 +51,9 @@ import { TestComponent } from './components/views/test/test.component';
     ContactOwnerComponent,
     CreatePetComponent,
     PetTableComponent,
-    TestComponent,  
+    TestComponent,
+    ChartsComponent,
+    TopFavPetsComponent,  
   ],
   imports: [
     BrowserModule,
@@ -58,6 +63,7 @@ import { TestComponent } from './components/views/test/test.component';
     HttpClientModule,
     FormsModule, 
     ReactiveFormsModule,
+    NgApexchartsModule,
     GeoapifyGeocoderAutocompleteModule.withConfig(environment.mapApiKey),
   ],
   providers: [],

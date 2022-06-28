@@ -1,6 +1,6 @@
 export class Treatment {
-  id:number = 0;
-  treatmentLabel:string = '';
+  id:number=0;
+  treatmentLabel:string='';
   aplicationDate:string='';
-  petIdFk:number = 0;
+  petIdFk:number=0;
 }

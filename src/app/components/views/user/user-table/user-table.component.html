@@ -1,4 +1,5 @@
 <div>
+  <h5 class="mt-5">Reporte de estado de usuarios</h5>
   <!-- User Table Filter -->
   <mat-form-field appearance="standard" class="w-100">
     <mat-label>Filter</mat-label>
@@ -11,7 +12,7 @@
   [dataSource]="usersDataSource" 
   matSort (matSortChange)="announceSortChange($event)">
 
-    <!-- User Column -->
+    <!-- User Name Column -->
     <ng-container matColumnDef="user">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
       <td mat-cell *matCellDef="let u"><small>{{u.username}}</small></td>
@@ -25,7 +26,7 @@
 
     <!-- Status Column -->
     <ng-container matColumnDef="status">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+      <th mat-header-cell *matHeaderCellDef> Activo </th>
       <td mat-cell *matCellDef="let u">
         <div *ngIf="u.isActive == 1; else disabled" class="status">
           <i class='bx bxs-check-circle'></i>
@@ -40,7 +41,7 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let u">
-        <a (click)="goToUserProfile(u.id)" class="actions-link" matTooltip="Show">
+        <a (click)="goToUserProfile(u.id)" class="actions-link" matTooltip="Ver">
           <i class='bx bxs-show'></i>
         </a> 
         <a (click)="goToEditUser(u.id)" class="actions-link" matTooltip="Editar">

@@ -1,17 +1,24 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { throwError, Subject, tap, Observable } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Subject, tap, Observable } from 'rxjs';
 
+//models
 import { Pet } from '../Models/pet';
-import { Treatment } from '../Models/treatment';
-import { Vacine } from '../Models/vacine';
 import { PetViewModel } from '../Models/petViewModel';
-import { FormGroup } from '@angular/forms';
+import { FavPet } from '../Models/favPet';
+import { Treatment } from '../Models/treatment';
+
+//interfaces
+import { ITreatments } from '../interfaces/treatment';
+import { PetEntries, P } from '../interfaces/pets';
+import { IVacines } from '../interfaces/vacine';
+import { Vacine } from '../Models/vacine';
+
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class PetAdoptionAppService {
 
   constructor(private http:HttpClient) { }
@@ -24,11 +31,11 @@ export class PetAdoptionAppService {
   readonly vacineEndpoint:string = "/Vacine";
   readonly LocationEndpoint:string = "/LocationAderess";
   readonly breedEndpoint:string = "/Breed";
+  readonly favPetEndpoint:string = "/FavPet";
 
   pets:PetViewModel[] = [];
   pet:PetViewModel = new PetViewModel();
-  treatment:Treatment = new Treatment();
-  vacine:Vacine = new Vacine();
+  p:P;
 
   get refresh(){
     return this._refresh$;
@@ -78,8 +85,20 @@ export class PetAdoptionAppService {
     return this.pet;
   }
 
+  getPetData(id:number):Observable<P>{
+    return this.http.get<P>(this.baseURL + this.petEndpoint + '/' + id);
+  }
+
   getListPets(){
     return this.http.get(this.baseURL + this.petEndpoint);
+  }
+
+  getListPets2():Observable<PetEntries>{
+    return this.http.get<PetEntries>(this.baseURL + this.petEndpoint);
+  }
+
+  getPetFullData(){
+    return this.http.get(this.baseURL + this.petEndpoint + '/healthData');
   }
 
   search(value:string){
@@ -93,6 +112,10 @@ export class PetAdoptionAppService {
 
   searchSex(value:string){
     return this.http.get(`https://localhost:44392/PetApi/Pet/sex?value=${value}`);
+  }
+
+  PetCreationsByMonth(){
+    return this.http.get( this.baseURL + this.petEndpoint + '/date?');
   }
 
   postPet(pet:Pet){
@@ -116,36 +139,32 @@ export class PetAdoptionAppService {
 
   
   // === TREATMENTS === //
-  getTreatmentsByPetId(id:number):Treatment{
-    this.http.get<Treatment>(this.baseURL + this.treatmentEndpoint + '/' + id)
-    .subscribe((res:any)=>{
-      this.treatment.id = res.id;
-      this.treatment.treatmentLabel = res.treatmentLabel;
-      this.treatment.aplicationDate = res.aplicationDate;
-      this.treatment.petIdFk = res.petIdFk;
-    });
-    return this.treatment;
+  getTreatmentsByPetId(id:number):Observable<ITreatments>{
+    return this.http.get<ITreatments>(this.baseURL + this.treatmentEndpoint + '/petTreatment?petId=' + id);
   }
 
   postTreatment(treatment:Treatment){
-    return this.http.post(this.baseURL + this.treatmentEndpoint, treatment);
+    return this.http.post(this.baseURL + this.treatmentEndpoint, treatment)
+    .subscribe((res)=>{console.log(res)});
   }
 
   // === VACINES === //
-  getVacinesByPetId(id:number):Vacine{
-    this.http.get<Vacine>(this.baseURL + this.vacineEndpoint + '/' + id)
-    .subscribe((res:any)=>{
-      this.vacine.id = res.id;
-      this.vacine.vacineLabel = res.vacineLabel;
-      this.vacine.aplicationDate = res.aplicationDate;
-      this.vacine.petIdFk = res.petIdFk;
-    });
+  getVacinesByPetId(id:number):Observable<IVacines>{
+    return this.http.get<IVacines>(this.baseURL + this.vacineEndpoint + '/' + id);
+  }
 
-    return this.vacine;
+  postVacine(vacine:Vacine){
+    return this.http.post(this.baseURL + this.vacineEndpoint, vacine)
+    .subscribe((res)=>{console.log(res)});
   }
 
   // === BREED === //
   getBreedList(){
     return this.http.get(this.baseURL + this.breedEndpoint);
+  }
+
+  // === Fav Pet === //
+  postFavPet(favPet:FavPet){
+    return this.http.post(this.baseURL + this.favPetEndpoint, favPet);
   }
 }

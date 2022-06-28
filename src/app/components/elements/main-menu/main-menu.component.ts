@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavigateService } from '../../../shared/services/navigate.service';
 
 @Component({
   selector: 'app-main-menu',
@@ -7,18 +8,18 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./main-menu.component.css']
 })
 export class MainMenuComponent implements OnInit {
-
-  constructor(private router:Router,) { }
+  loggedUser:number = 1;
+  constructor(private navigate:NavigateService,) { }
 
   ngOnInit(): void {
   }
 
   //navigate
   GoToHome(){
-    this.router.navigate([`/`]);
+    this.navigate.GoToHome();
   }
 
-  // GoToUserProfile(){
-  //   this.router.navigate([`user-profile/:id`]);
-  // }
+  GoToUserProfile(){
+    this.navigate.goToUserProfile(this.loggedUser);
+  }
 }
