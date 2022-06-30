@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Pet } from 'src/app/shared/Models/pet';
+import { ActivatedRoute } from '@angular/router';
+
+//== Services ==//
 import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
-import { UtilsService } from '../../../../shared/services/utils.service';
+//== Models and Interfaces ==//
+import { Pet } from 'src/app/shared/Models/pet';
 import { PetViewModel } from '../../../../shared/Models/petViewModel';
 
 @Component({
@@ -36,16 +38,15 @@ export class EditPetComponent implements OnInit {
     date: new FormControl('',[Validators.required])
   });
 
-  
   petVM:PetViewModel = new PetViewModel();
   pet:Pet = new Pet();
   breedList:any;
-  Msg:string;
+  successMsg:string='';
+  errorMsg:string='';
 
   constructor
   (
     public service:PetAdoptionAppService,
-    public _utils:UtilsService,
     private activatedRoute:ActivatedRoute,
   ) 
   { }
@@ -53,9 +54,9 @@ export class EditPetComponent implements OnInit {
   ngOnInit(): void {
     this.getBreedList();
     this.getPet();
-    // this.getTreatments();
   }
 
+  //== SERVICE CALLS ==//
   getPet():void {
     this.petVM = this.service.getPet(this.id);
   }
@@ -67,24 +68,18 @@ export class EditPetComponent implements OnInit {
     });
   }
 
-  // getTreatments(){
-  //   this.treatments = this.service.getTreatmentsByPetId(this.id);
-  // }
-
-  // getVacines(){
-  //   this.vacines = this.service.getVacinesByPetId(this.id);
-  // }
-
   save(){
     try{
       this.setPetData();
       this.service.updatePet(this.pet, this.id);
-      this.Msg = 'Guardado exitosamente';
+      this.successMsg = 'Guardado exitosamente';
+      window.location.reload()
     }catch(err){
-      this.Msg = 'Algo salió mal...';
+      this.errorMsg = 'Algo salió mal...';
     }
   }
 
+  //== METHODS ==//
   setPetData(){
     this.pet.id = this.id;
     this.pet.userIdFk = 1;
@@ -101,43 +96,15 @@ export class EditPetComponent implements OnInit {
     this.pet.petTypeIdFk = parseInt(this.form.get('petType')?.value);
   }
 
-  get name(){
-    return this.form.get('name');
-  }
-
-  get bio(){
-    return this.form.get('bio');
-  }
-
-  get sex(){
-    return this.form.get('sex');
-  }
-
-  get age(){
-    return this.form.get('age');
-  }
-
-  get weight(){
-    return this.form.get('weight');
-  }
-
-  get breed(){
-    return this.form.get('breed');
-  }
-
-  get color(){
-    return this.form.get('color');
-  }
-
-  get location(){
-    return this.form.get('location');
-  }
-
-  get petType(){
-    return this.form.get('petType');
-  }
-
-  get isAdopted(){
-    return this.form.get('isAdopted');
-  }
+  //== GETTERS ==//
+  get name(){return this.form.get('name');}
+  get bio(){return this.form.get('bio');}
+  get sex(){return this.form.get('sex');}
+  get age(){return this.form.get('age');}
+  get weight(){return this.form.get('weight');}
+  get breed(){return this.form.get('breed');}
+  get color(){return this.form.get('color');}
+  get location(){return this.form.get('location');}
+  get petType(){return this.form.get('petType');}
+  get isAdopted(){return this.form.get('isAdopted');}
 }

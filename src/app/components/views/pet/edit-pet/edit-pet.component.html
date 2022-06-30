@@ -1,4 +1,8 @@
 <div class="container box1">
+  <ol class="breadcrumb mb-5">
+    <li class="breadcrumb-item"><a routerLink="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Editar</li>
+  </ol>
   <h4>Edita tu mascota</h4>
 
   <form class="row" [formGroup]="form" (ngSubmit)="save()">
@@ -112,8 +116,15 @@
     <div class="row col-12 d-flex justify-content-center mt-4">
       <button class="btn1 btn col-4 white" type="submit">ACTUALIZAR</button>
     </div>
-
   </form>
+
+  <!-- Success Message -->
+  <div *ngIf=" successMsg != '' ">
+    <p class="row text-success text-center" 
+    [ngModel]="successMsg" [ngModelOptions]="{standalone: true}">
+      {{successMsg}}
+    </p>
+  </div>
   <!-- <div>
     {{form.value | json}}
   </div> -->

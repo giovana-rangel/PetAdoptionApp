@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { PetAdoptionAppService } from '../../../../shared/services/pet-adoption-app.service';
 import { Pet } from '../../../../shared/Models/pet';
-import { HttpErrorResponse } from '@angular/common/http';
+import { NavigateService } from '../../../../shared/services/navigate.service';
 
 @Component({
   selector: 'app-create-pet',
@@ -26,12 +26,16 @@ export class CreatePetComponent implements OnInit {
   breedList:any;
   successMsg:string = '';
 
-  constructor(public _service:PetAdoptionAppService) { }
+  constructor
+  (
+    public _service:PetAdoptionAppService,
+  ) { }
 
   ngOnInit(): void {
     this.getBreedList();
   }
 
+  //== HTTP CALLS ==//
   getBreedList(){
     this._service.getBreedList().subscribe(res=>{
       this.breedList = res;
@@ -46,6 +50,7 @@ export class CreatePetComponent implements OnInit {
         this.setData(this.form);
         this._service.postPet(this.pet);
         this.successMsg = 'Guardado exitosamente';
+        window.location.reload()
       }catch(err:any){
         console.error(err);
       }
@@ -56,6 +61,7 @@ export class CreatePetComponent implements OnInit {
     
   }
 
+  //== METHODS ==//
   setData(form:FormGroup){
     this.pet.id = 0;
     this.pet.userIdFk = 1;
@@ -70,48 +76,20 @@ export class CreatePetComponent implements OnInit {
     this.pet.colorIdFk = parseInt(form.get('color')?.value);
     this.pet.petTypeIdFk = parseInt(form.get('petType')?.value);
   }
-
-  clearFields(){
-    //pendiente
-  }
-
+ 
   getLocation(){
+    //se la debo
     //recortar string location y guardar en los respectivos campos
   }
 
-  get name(){
-    return this.form.get('name');
-  }
-
-  get bio(){
-    return this.form.get('bio');
-  }
-
-  get sex(){
-    return this.form.get('sex');
-  }
-
-  get age(){
-    return this.form.get('age');
-  }
-
-  get weight(){
-    return this.form.get('weight');
-  }
-
-  get breed(){
-    return this.form.get('breed');
-  }
-
-  get location(){
-    return this.form.get('location');
-  }
-
-  get petType(){
-    return this.form.get('petType');
-  }
-
-  get color(){
-    return this.form.get('color');
-  }
+  //=== GETTERS ==//
+  get name(){return this.form.get('name');}
+  get bio(){return this.form.get('bio');}
+  get sex(){return this.form.get('sex');}
+  get age(){return this.form.get('age');}
+  get weight(){return this.form.get('weight');}
+  get breed(){return this.form.get('breed');}
+  get location(){return this.form.get('location');}
+  get petType(){return this.form.get('petType');}
+  get color(){return this.form.get('color');}
 }

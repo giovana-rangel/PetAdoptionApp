@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Subscription } from 'rxjs';
+//== Services ==//
+import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
 import { NavigateService } from '../../../../shared/services/navigate.service';
+//== Material ==//
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
+//== Models and interfaces ==//
 import { IHealth } from '../../../../shared/interfaces/healthReport';
 
 @Component({
@@ -13,6 +16,7 @@ import { IHealth } from '../../../../shared/interfaces/healthReport';
   templateUrl: './pet-table.component.html',
   styleUrls: ['./pet-table.component.css']
 })
+
 export class PetTableComponent implements OnInit {
   pets:IHealth;
   dataSource:any;
@@ -42,7 +46,7 @@ export class PetTableComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  // === HTTP calls ===//
+  // === SERVICE CALLS ===//
   data():void {
     this._service.getPetHealthReport().subscribe((res)=>{
       this.pets = res as IHealth;
@@ -55,7 +59,7 @@ export class PetTableComponent implements OnInit {
     this.data();
   }
 
-  //=== Angular Material ==//
+  //=== MATERIAL ==//
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -69,7 +73,7 @@ export class PetTableComponent implements OnInit {
     }
   }
 
-  //=== navigate ===//
+  //=== NAVIGATE ===//
   goToPetProfile(id:number){
     this._navigate.goToPetProfile(id);
   }

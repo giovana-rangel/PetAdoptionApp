@@ -55,7 +55,7 @@ export class PetProfileInfoComponent implements OnInit {
     this.getVacinesByPetId();
   }
 
-  //service data calls
+  //== SERVICE CALLS ==//
   getPetData(){
     this.service.getPetData(this.petId).subscribe((res)=>{
       this.pet = res as P;
@@ -120,18 +120,19 @@ export class PetProfileInfoComponent implements OnInit {
     }
   }
 
+  //== METHODS ==//
   setGoogleMapsURL(){
     let text = this.mapsUrl.nativeElement.textContent;
     let arr = text.split(" ");
     this.url = arr.join("+");
   }
 
-  //navigate
+ //== NAVIGATE ==//
   goToEditPet(){
     this._navigate.goToEditPet(this.petId);
   }
 
-  // == get form control data ==//
+  // == GETTERS ==//
   get treatmentLabel(){return this.tForm.get('treatmentLabel');}
   get treatmentDate(){return this.tForm.get('treatmentDate');}
   get vacineLabel(){return this.vForm.get('vacineLabel');}
