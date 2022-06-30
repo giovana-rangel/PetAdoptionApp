@@ -1,5 +1,5 @@
 //angular modules
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, Input } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 //Services
 import { PetAdoptionAppService } from '../../../../shared/services/pet-adoption-app.service';
@@ -8,7 +8,8 @@ import { NavigateService } from '../../../../shared/services/navigate.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { IUser, IUsers, UserEntries } from '../../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-user-table',
@@ -17,7 +18,7 @@ import { Subscription } from 'rxjs';
 })
 
 export class UserTableComponent implements OnInit {
-  users: any;
+  @Input() users:Observable<IUsers>;
   usersDataSource:any;
   subscription:Subscription;
 
@@ -41,14 +42,14 @@ export class UserTableComponent implements OnInit {
 
   //=== HTTP Calls ===//
   data():void {
-    this.service.getListUsers().subscribe((res:any)=>{
-      this.users = res;
-      this.usersDataSource = new MatTableDataSource(this.users.$values);
+    this.users.subscribe((res)=>{
+      let u = res as IUsers;
+      this.usersDataSource = new MatTableDataSource(u.users.$values);
     });
   }
 
   deleteUser(id:number):void{
-    this.service.deleteUserClient(id).subscribe();
+    this.service.deleteUserClient(id);
     this.data();
   }
 
@@ -79,5 +80,4 @@ export class UserTableComponent implements OnInit {
   goToEditUser(id:number){
     this._navigate.goToEditUser(id);
   }
-
 }

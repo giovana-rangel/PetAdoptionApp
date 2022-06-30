@@ -10,9 +10,11 @@ import { Treatment } from '../Models/treatment';
 
 //interfaces
 import { ITreatments } from '../interfaces/treatment';
-import { PetEntries, P } from '../interfaces/pets';
+import { PetEntries, P, IPets } from '../interfaces/pets';
 import { IVacines } from '../interfaces/vacine';
 import { Vacine } from '../Models/vacine';
+import {  IUsers } from '../interfaces/user';
+import { IHealth } from '../interfaces/healthReport';
 
 
 @Injectable({
@@ -47,17 +49,17 @@ export class PetAdoptionAppService {
     return this.http.get(this.baseURL + this.userEndpoint + '/' + id);
   }
 
-  getListUsers(){
-    return this.http.get(this.baseURL + this.userEndpoint);
+  getListUsers():Observable<IUsers>{
+    return this.http.get<IUsers>(this.baseURL + this.userEndpoint);
   }
 
   deleteUserClient(id:number){
     return this.http.delete(`${this.baseURL}${this.userEndpoint}/${id}`)
-      .pipe(
-        tap(()=>{
-          this._refresh$.next();
-        })
-      );
+    .pipe(
+      tap(()=>{
+        this._refresh$.next();
+      })
+    ).subscribe();
   }
 
   // === PETS === //
@@ -89,29 +91,33 @@ export class PetAdoptionAppService {
     return this.http.get<P>(this.baseURL + this.petEndpoint + '/' + id);
   }
 
-  getListPets(){
-    return this.http.get(this.baseURL + this.petEndpoint);
+  getListPets():Observable<IPets>{
+    return this.http.get<IPets>(this.baseURL + this.petEndpoint);
   }
 
   getListPets2():Observable<PetEntries>{
     return this.http.get<PetEntries>(this.baseURL + this.petEndpoint);
   }
 
-  getPetFullData(){
-    return this.http.get(this.baseURL + this.petEndpoint + '/healthData');
+  getPetHealthReport():Observable<IHealth>{
+    return this.http.get<IHealth>(this.baseURL + this.petEndpoint + '/healthData');
   }
 
-  search(value:string){
+  getPets(limit:number):Observable<IPets>{
+    return this.http.get<IPets>(this.baseURL + this.petEndpoint + `/limit?value=${limit}`)
+  }
+
+  search(value:string):Observable<IPets>{
     value.toLowerCase();
-    return this.http.get(`https://localhost:44392/PetApi/Pet/search?value=${value}`);
+    return this.http.get<IPets>(`https://localhost:44392/PetApi/Pet/search?value=${value}`);
   }
 
-  searchColor(value:number){
-    return this.http.get(`https://localhost:44392/PetApi/Pet/color?value=${value}`);
+  searchColor(value:number):Observable<IPets>{
+    return this.http.get<IPets>(`https://localhost:44392/PetApi/Pet/color?value=${value}`);
   }
 
-  searchSex(value:string){
-    return this.http.get(`https://localhost:44392/PetApi/Pet/sex?value=${value}`);
+  searchSex(value:string):Observable<IPets>{
+    return this.http.get<IPets>(`https://localhost:44392/PetApi/Pet/sex?value=${value}`);
   }
 
   PetCreationsByMonth(){
@@ -130,11 +136,11 @@ export class PetAdoptionAppService {
 
   deletePet(id:number){
     return this.http.delete(`${this.baseURL}${this.petEndpoint}/${id}`)
-      .pipe(
-        tap(()=>{
-          this._refresh$.next();
-        })
-      );
+    .pipe(
+      tap(()=>{
+        this._refresh$.next();
+      })
+    ).subscribe();
   }
 
   
@@ -148,6 +154,10 @@ export class PetAdoptionAppService {
     .subscribe((res)=>{console.log(res)});
   }
 
+  deleteTreatment(id:number){
+    return this.http.delete(`${this.baseURL}${this.treatmentEndpoint}/${id}`).subscribe();
+  }
+
   // === VACINES === //
   getVacinesByPetId(id:number):Observable<IVacines>{
     return this.http.get<IVacines>(this.baseURL + this.vacineEndpoint + '/' + id);
@@ -156,6 +166,11 @@ export class PetAdoptionAppService {
   postVacine(vacine:Vacine){
     return this.http.post(this.baseURL + this.vacineEndpoint, vacine)
     .subscribe((res)=>{console.log(res)});
+  }
+
+  deleteVacine(id:number){
+    debugger
+    return this.http.delete(`${this.baseURL}${this.vacineEndpoint}/${id}`).subscribe();
   }
 
   // === BREED === //

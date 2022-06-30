@@ -112,9 +112,11 @@ export class PetProfileInfoComponent implements OnInit {
 
   onDelete(id:number, model:string){
     if(model == 't'){
-      console.log('delete treatment');
+      console.log(id);
+      this.service.deleteTreatment(id);
     }else if (model == 'v') {
-      console.log('delete vacine');
+      console.log(id);
+      this.service.deleteVacine(id);
     }
   }
 

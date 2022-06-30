@@ -27,9 +27,10 @@ import { PetProfileInfoComponent } from './components/views/pet/pet-profile-info
 import { ContactOwnerComponent } from './components/elements/contact-owner/contact-owner.component';
 import { CreatePetComponent } from './components/views/pet/create-pet/create-pet.component';
 import { PetTableComponent } from './components/views/pet/pet-table/pet-table.component';
-import { TestComponent } from './components/views/test/test.component';
 import { ChartsComponent } from './components/views/admin-dash/charts/charts.component';
 import { TopFavPetsComponent } from './components/views/admin-dash/top-fav-pets/top-fav-pets.component';
+import { FavPetComponent } from './components/views/fav-pet/fav-pet.component';
+import { ChatroomComponent } from './components/views/chatroom/chatroom.component';
 
 
 @NgModule({
@@ -51,9 +52,10 @@ import { TopFavPetsComponent } from './components/views/admin-dash/top-fav-pets/
     ContactOwnerComponent,
     CreatePetComponent,
     PetTableComponent,
-    TestComponent,
     ChartsComponent,
-    TopFavPetsComponent,  
+    TopFavPetsComponent,
+    FavPetComponent,
+    ChatroomComponent,  
   ],
   imports: [
     BrowserModule,

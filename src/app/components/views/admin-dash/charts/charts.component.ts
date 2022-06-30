@@ -30,7 +30,6 @@ export type ChartOptions = {
 
 export class ChartsComponent implements OnInit {
   values:any;
-  @Input() pets:any;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
 

@@ -6,3 +6,9 @@
 .mat-drawer-side{
   border: none;
 }
+
+img{
+  width: 5rem;
+  height: 5rem;
+  margin-right: 2rem;
+}

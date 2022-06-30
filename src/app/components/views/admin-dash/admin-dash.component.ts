@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
-import { Pet } from '../../../shared/Models/pet';
+import { IPets } from '../../../shared/interfaces/pets';
+import { IUsers } from '../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-admin-dash',
@@ -9,18 +10,11 @@ import { Pet } from '../../../shared/Models/pet';
   styleUrls: ['./admin-dash.component.css']
 })
 export class AdminDashComponent implements OnInit {
-  pets:any;
-  subscription:Subscription;
+  pets:Observable<IPets> = this._service.getListPets();
+  users:Observable<IUsers> = this._service.getListUsers();
+  
   constructor(public _service:PetAdoptionAppService,) { }
 
   ngOnInit(): void {
-    this.data();
-    this.subscription = this._service.refresh.subscribe(() => {
-      this.data();
-    });
-  }
-
-  data():void {
-    this._service.getListPets().subscribe((res:any)=>{ this.pets = res;});
   }
 }

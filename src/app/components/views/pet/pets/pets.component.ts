@@ -7,7 +7,7 @@ import { NavigateService } from '../../../../shared/services/navigate.service';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { PetEntries } from 'src/app/shared/interfaces/pets';
+import { IPets, PetEntries } from 'src/app/shared/interfaces/pets';
 import { FavPet } from '../../../../shared/Models/favPet';
 
 @Component({
@@ -18,11 +18,13 @@ import { FavPet } from '../../../../shared/Models/favPet';
 
 export class PetsComponent implements OnInit {
   userLogged:number = 1;
-  pets:any;
+
+  totalEntries:number;
+  load:number=6;
+  dataSource:IPets;
   subscription:Subscription;
   color:string='';
   sex:string;
-  favPet = new FavPet();
 
   @ViewChild("searchAll") searchAll!:ElementRef<HTMLInputElement>;
   @ViewChild(MatAccordion) accordion: MatAccordion;
@@ -41,15 +43,29 @@ export class PetsComponent implements OnInit {
   }
 
   //service calls
-  data():void {
-    this.service.getListPets().subscribe((pets)=>{this.pets = pets;});  
+  data(){
+    this.service.getPets(this.load).subscribe((res)=>{
+      this.dataSource = res as IPets;
+      this.totalEntries = this.dataSource.meta;
+      console.log(this.dataSource);
+    });
   }
 
+  LoadMore(){
+    if(this.load >= this.totalEntries){
+      this.service.getPets(this.totalEntries);
+    }else{
+      this.load = this.load+6;
+      this.data();
+    }
+  }
+
+  //== Filter Methods ==//
   search(){
     const value = this.searchAll.nativeElement.value;
     if(value.trim() === '') return;
     this.service.search(value).subscribe((res)=>{
-      this.pets = res;
+      this.dataSource = res as IPets;
     }); 
     this.searchAll.nativeElement.value='';
   }
@@ -58,13 +74,13 @@ export class PetsComponent implements OnInit {
     if(this.color.trim() === '') return;
     const value = parseInt(this.color);
     this.service.searchColor(value).subscribe((res)=>{
-      this.pets = res;
+      this.dataSource = res as IPets;
     });
   }
 
   searchBySex(){
     this.service.searchSex(this.sex).subscribe((res)=>{
-      this.pets = res;
+      this.dataSource = res as IPets;
     });
   }
 
@@ -72,15 +88,8 @@ export class PetsComponent implements OnInit {
     this.data();
   }
 
-  // onFav(petId:number){
-  //   this.favPet.petIdFk= petId;
-  //   this.favPet.userIdFk = this.userLogged;
-  //   this.service.postFavPet(this.favPet);
-  // }
-
   //navigate
-  goToPetProfile(id:number){
+  goToPetProfile(id:any){
     this._navigate.goToPetProfile(id);
   }
-
 }

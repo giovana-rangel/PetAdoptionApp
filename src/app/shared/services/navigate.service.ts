@@ -40,5 +40,13 @@ export class NavigateService {
     this.router.navigate([`/edit-pet/${id}`]);
   }
 
-  
+  //=== Favoritos ===//
+  goToFavPets(){
+    this.router.navigate(['favoritos']);
+  }
+
+  //=== ChatRoom ===//
+  goToChatroom(){
+    this.router.navigate(['chat']);
+  }
 }

@@ -94,7 +94,7 @@
  
   <!-- Pets Container -->
   <div class="mt-5 row" >
-    <div class="col-lg-4 col-sm-2 mb-5" *ngFor="let p of pets.$values">
+    <div class="col-lg-4 col-sm-2 mb-5" *ngFor="let p of dataSource.pets.$values">
       <!-- Pet Card -->
       <mat-card class="example-card">    
         <img mat-card-image src="https://lasillarotarm.blob.core.windows.net.optimalcdn.com/images/2019/05/28/memekieroanvorguesagatitos7.jpg">
@@ -112,7 +112,7 @@
             </mat-card-title>
 
             <mat-card-subtitle 
-            *ngIf="p.street != '' && p.city != '' && p.number != '0' ">
+            *ngIf="p.street != '' && p.city != '' && p.number != 0 ">
               <a href="#">
                 <i class='bx bxs-map'></i>
                 {{p.street}}, {{p.number}}, {{p.city}}, {{p.state}}             
@@ -133,6 +133,12 @@
         </mat-card-content>
       </mat-card>
     </div> 
+  </div>
+
+  <div class="row d-flex justify-content-center">
+    <button class="col-4 load" (click)="LoadMore()">
+      Load More
+    </button>
   </div>
   
 </div>

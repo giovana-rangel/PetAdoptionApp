@@ -10,18 +10,18 @@ import { HomeComponent } from './components/views/home/home.component';
 import { EditPetComponent } from './components/views/pet/edit-pet/edit-pet.component';
 import { PetProfileComponent } from './components/views/pet/pet-profile/pet-profile.component';
 import { CreatePetComponent } from './components/views/pet/create-pet/create-pet.component';
-import { TestComponent } from './components/views/test/test.component';
-import { ChartsComponent } from './components/views/admin-dash/charts/charts.component';
+import { FavPet } from './shared/Models/favPet';
+import { ChatroomComponent } from './components/views/chatroom/chatroom.component';
 
 const routes: Routes = [ 
-  {path: '', component: HomeComponent},
-  {path:'create-pet', component:CreatePetComponent},
+  {path:'', component: HomeComponent},
   {path:'admin-dash', component:AdminDashComponent},
-  {path:'user-profile/:id', component:UserProfileComponent},
+  {path:'chat', component:ChatroomComponent},
+  {path:'create-pet', component:CreatePetComponent},
   {path:'edit-pet/:id', component:EditPetComponent},
+  {path:'favoritos', component:FavPet},
   {path:'pet-profile/:id', component:PetProfileComponent},
-  {path:'test', component:TestComponent},
-  {path:'admin-dash/charts', component:ChartsComponent}
+  {path:'user-profile/:id', component:UserProfileComponent}, 
 ];
 
 @NgModule({

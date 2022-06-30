@@ -22,4 +22,12 @@ export class MainMenuComponent implements OnInit {
   GoToUserProfile(){
     this.navigate.goToUserProfile(this.loggedUser);
   }
+
+  GoToFavPets(){
+    this.navigate.goToFavPets();
+  }
+
+  GoToChatroom(){
+    this.navigate.goToChatroom();
+  }
 }

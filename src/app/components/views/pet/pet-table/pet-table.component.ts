@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
-import { Pet } from '../../../../shared/Models/pet';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Subscription } from 'rxjs';
 import { NavigateService } from '../../../../shared/services/navigate.service';
 import { MatSort, Sort } from '@angular/material/sort';
+import { IHealth } from '../../../../shared/interfaces/healthReport';
 
 @Component({
   selector: 'app-pet-table',
@@ -14,8 +14,8 @@ import { MatSort, Sort } from '@angular/material/sort';
   styleUrls: ['./pet-table.component.css']
 })
 export class PetTableComponent implements OnInit {
+  pets:IHealth;
   dataSource:any;
-  pets:any;
   subscription:Subscription;
 
   displayedColumns: string[] = ['pet', 'treatments', 'vacines', 'actions'];
@@ -44,15 +44,14 @@ export class PetTableComponent implements OnInit {
 
   // === HTTP calls ===//
   data():void {
-    this._service.getPetFullData().subscribe((res:any)=>{
-      this.pets = res;
-      console.log(res);
+    this._service.getPetHealthReport().subscribe((res)=>{
+      this.pets = res as IHealth;
       this.dataSource = new MatTableDataSource(this.pets.$values);
     });
   }
 
   deletePet(id:number):void{
-    this._service.deletePet(id).subscribe();
+    this._service.deletePet(id);
     this.data();
   }
 

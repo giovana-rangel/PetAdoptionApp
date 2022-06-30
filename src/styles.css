@@ -38,6 +38,10 @@ i{
   padding-bottom: 5rem;
 }
 
+.bttn{
+  cursor: pointer;
+}
+
 .btn1{
   background-color: var(--primary-color) !important;
 }

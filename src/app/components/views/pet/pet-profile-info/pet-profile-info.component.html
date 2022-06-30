@@ -77,8 +77,8 @@
           <div *ngFor="let t of treatments.$values" class="row">
             <p class="col-8">{{t.treatmentLabel}}</p>
             <p class="col-3">{{t.aplicationDate | date }}</p>
-            <div class="col-1" (click)="onDelete(t.id, 't')" mat-raised-button matTooltip="Eliminar">
-              <i class='bx bx-x'></i>
+            <div class="col-1 bttn" (click)="onDelete(t.id, 't')">
+              <i class='bx bx-x col-1'></i>
             </div>
           </div>
         </div>

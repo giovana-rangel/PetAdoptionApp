@@ -20,3 +20,8 @@ export interface P {
 export interface PetEntries {
   $values: P[];
 }
+
+export interface IPets{
+  pets:PetEntries;
+  meta:number;
+}
