@@ -9,6 +9,7 @@ import { NavigateService } from '../../../shared/services/navigate.service';
 })
 export class MainMenuComponent implements OnInit {
   loggedUser:number = 1;
+  userphone:string = "54961774801";
   constructor(private navigate:NavigateService,) { }
 
   ngOnInit(): void {
@@ -20,14 +21,14 @@ export class MainMenuComponent implements OnInit {
   }
 
   GoToUserProfile(){
-    this.navigate.goToUserProfile(this.loggedUser);
+    this.navigate.GoToUserProfile(this.loggedUser);
   }
 
   GoToFavPets(){
-    this.navigate.goToFavPets();
+    this.navigate.GoToFavPets(this.loggedUser);
   }
 
   GoToChatroom(){
-    this.navigate.goToChatroom();
+    this.navigate.GoToChatroom();
   }
 }

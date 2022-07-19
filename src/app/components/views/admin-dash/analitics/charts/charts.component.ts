@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild, OnInit } from '@angular/core';
-import { PetAdoptionAppService } from '../../../../shared/services/pet-adoption-app.service';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { PetAdoptionAppService } from '../../../../../shared/services/pet-adoption-app.service';
 
 import {
   ChartComponent,

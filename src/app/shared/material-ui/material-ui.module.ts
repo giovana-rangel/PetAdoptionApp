@@ -17,6 +17,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
   declarations: [],
@@ -37,7 +40,10 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTabsModule,
+    MatChipsModule,
+    MatMenuModule
   ],
   exports:[
     MatTableModule,
@@ -55,7 +61,10 @@ import {MatRadioModule} from '@angular/material/radio';
     MatDatepickerModule,
     MatNativeDateModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTabsModule,
+    MatChipsModule,
+    MatMenuModule
   ]
 })
 export class MaterialUiModule { }

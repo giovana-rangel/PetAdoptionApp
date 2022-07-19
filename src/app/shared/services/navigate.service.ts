@@ -9,44 +9,40 @@ export class NavigateService {
   constructor(private router:Router) { }
 
   //=== Home ===//
-  GoToHome(){
-    this.router.navigate([`/`]);
-  }
+  GoToHome(){this.router.navigate([`/`]);}
   
+
   //=== User ===//
-  goToUserProfile(id:number){
-    this.router.navigate([`/user-profile/${id}`]);
-  }
+  GoToUserProfile(id:number){this.router.navigate([`/user-profile/${id}`]);}
 
-  goToCreateUser(id:number){
-    this.router.navigate([`/create-user`]);
-  }
+  GoToCreateUser(id:number){this.router.navigate([`/create-user`]);}
 
-  goToEditUser(id:number){
-    this.router.navigate([`/edit-user/${id}`]);
-  }
+  GoToEditUser(id:number){this.router.navigate([`/edit-user/${id}`]);}
+
 
   //=== Pet ===//
 
-  goToPetProfile(id:number){
-    this.router.navigate([`/pet-profile/${id}`]);
-  }
+  GoToPetProfile(id:number){this.router.navigate([`/pet-profile/${id}`]);}
 
-  goToCreatePet(){
-    this.router.navigate([`/create-pet`]);
-  }
+  GoToCreatePet(){this.router.navigate([`/create-pet`]);}
 
-  goToEditPet(id:number){
-    this.router.navigate([`/edit-pet/${id}`]);
-  }
+  GoToEditPet(id:number){this.router.navigate([`/edit-pet/${id}`]);}
+
 
   //=== Favoritos ===//
-  goToFavPets(){
-    this.router.navigate(['favoritos']);
-  }
+  GoToFavPets(userId:number){this.router.navigate([`favoritos/${userId}`]);}
+
 
   //=== ChatRoom ===//
-  goToChatroom(){
-    this.router.navigate(['chat']);
-  }
+  GoToChatroom(){this.router.navigate(['chat']);}
+
+  
+  //=== Admin Dash===//
+  GoToAdminAnalitics(){this.router.navigate(['admin-dash/analitics']);}
+  
+  GoToAdminPets(){this.router.navigate(['admin-dash/pets-settings']);}
+  
+  GoToAdminUsers(){this.router.navigate(['admin-dash/users-settings']);}
+  
+  GoToAdminSettings(){this.router.navigate(['admin-dash/settings']);}
 }

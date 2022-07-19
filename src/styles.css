@@ -2,6 +2,7 @@
 
 :root{
   --primary-color: #4689fd;
+  --secondary-color: #f39c12;
   --light1 : #f2f3fb;
   --light2: #b3b7d2;
 }
@@ -112,4 +113,33 @@ i{
 
 .delete{
   color: red;
+}
+
+.card{
+  max-width: 330px;
+  max-height: 480px;
+  position: relative;
+  border-radius: 1.5rem !important;
+}
+
+.pet-data{
+  position:absolute;
+  bottom: 0;
+  left: 15px;
+  right: 15px;
+}
+
+.favBtn{
+  background: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.favBtn i{
+  font-size: 2rem;
+  color: var(--primary-color);
+}
+
+.active{
+  color:red;
 }

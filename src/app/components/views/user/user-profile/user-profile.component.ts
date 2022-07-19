@@ -11,7 +11,8 @@ import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  id:number;
+  id:number = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+  pets:any = this.service.getPetsByUserId(this.id);
   show:boolean;
   user: any;
   @Input() users:any;
@@ -25,13 +26,7 @@ export class UserProfileComponent implements OnInit {
   {}
 
   ngOnInit() {
-    this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
     this.getUser(this.id);
-    this.getAllUsers(); 
-  }
-
-  getAllUsers():void {
-    this.service.getListUsers().subscribe((res:any)=>{this.users = res;});
   }
 
   getUser(id:number):void {

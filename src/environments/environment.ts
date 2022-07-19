@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  mapApiKey: '0082b7b9a6844069b8502cb2916f18f8',
-  TomApiKey: 'go7haIJGfib3OpEPfHLAXr4iHMFr7td0',
+  port: 'https://localhost:44392',
 };
 
 /*

@@ -25,7 +25,11 @@ i{
   align-items: center;
   margin-right: 2rem;
   border-radius: 1rem;
-  background: var(--light2);
+  background: var(--secondary-color);
+}
+
+.square-box > * {
+  color: #FFF !important;
 }
 
 .badge{
@@ -35,7 +39,7 @@ i{
 }
 
 .btn-add{
-  background: var(--light2);
+  background: var(--secondary-color);
   padding: 10px;
   border-radius: 5px;
   color: #FFF;
@@ -46,8 +50,10 @@ i{
 .bx-female-sign, 
 .bx-male-sign{
   font-weight: 800;
+  color: #FFF !important;
 }
 
 .bx-x{
   cursor: pointer;
+  color:var(--secondary-color);
 }

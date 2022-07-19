@@ -12,9 +12,9 @@ mat-button-toggle-group{
   color: #FFF;
 }
 
-.pet-card{
-  height: 350px;
-  background: #FFF;
+.card{
+  width: auto;
+  height: 440px;
   position: relative;
   border-radius: 1.5rem;
 }
@@ -58,6 +58,11 @@ mat-card-subtitle{
   font-size: .8rem;
 }
 
+mat-accordion {
+  width: 100%;
+  padding: 0;
+}
+
 .bx-slider-alt, .bx-refresh, .bx-x{
   background: #FFF;
   color: var(--primary-color);
@@ -91,13 +96,17 @@ mat-expansion-panel-header{
   top: 1rem;
   right: 1rem;
 }
+
 .favBtn i{
   font-size: 2rem;
   color: var(--primary-color);
+  transition: ease-in-out .3s;
 }
-
-.active{
-  color:red;
+.favBtn i:hover{
+  transform: scale(120%);
+}
+.favactive{
+  color:red !important;
 }
 
 .load{
@@ -106,4 +115,8 @@ mat-expansion-panel-header{
   padding-bottom: 8px;
   border-radius: 5px;
   color: #fff;
+}
+
+.hidden{
+  visibility: hidden;
 }

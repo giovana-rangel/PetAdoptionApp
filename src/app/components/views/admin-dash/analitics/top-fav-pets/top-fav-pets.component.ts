@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IPets } from '../../../../shared/interfaces/pets';
-import { IUsers } from '../../../../shared/interfaces/user';
+import { IPets } from '../../../../../shared/interfaces/pets';
+import { IUsers } from '../../../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-top-fav-pets',
@@ -12,6 +12,7 @@ import { IUsers } from '../../../../shared/interfaces/user';
 export class TopFavPetsComponent implements OnInit{
   @Input() pets:Observable<IPets>;
   @Input() users:Observable<IUsers>;
+  
   petsCollection:IPets;
   usersCollection:IUsers;
   petsStop:number;

@@ -1,14 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { MatAccordion } from '@angular/material/expansion';
-import { Router } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.service';
 import { NavigateService } from '../../../../shared/services/navigate.service';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { IPets, PetEntries } from 'src/app/shared/interfaces/pets';
-import { FavPet } from '../../../../shared/Models/favPet';
+import { P } from 'src/app/shared/interfaces/pets';
+import { IFavs, IFav } from '../../../../shared/interfaces/favpets';
+import { FavPet } from 'src/app/shared/Models/favPet';
 
 @Component({
   selector: 'app-pets',
@@ -17,18 +14,20 @@ import { FavPet } from '../../../../shared/Models/favPet';
 })
 
 export class PetsComponent implements OnInit {
-  userLogged:number = 1;
-
-  totalEntries:number;
-  load:number=6;
-  dataSource:IPets;
   subscription:Subscription;
-  color:string='';
-  sex:string;
+  userLogged:number = 1;
+  showFilters = true;
 
-  @ViewChild("searchAll") searchAll!:ElementRef<HTMLInputElement>;
-  @ViewChild(MatAccordion) accordion: MatAccordion;
+  Data:P[];
+  dataSource:P[];
 
+  form = new FormGroup({
+    raza:new FormControl(''),
+    color:new FormControl(0),
+    sex:new FormControl(''),
+    type:new FormControl('')
+  })
+  
   constructor
   ( 
     public service:PetAdoptionAppService,
@@ -44,52 +43,62 @@ export class PetsComponent implements OnInit {
 
   //service calls
   data(){
-    this.service.getPets(this.load).subscribe((res)=>{
-      this.dataSource = res as IPets;
-      this.totalEntries = this.dataSource.meta;
-      console.log(this.dataSource);
+    this.service.getListPets().subscribe((res)=>{
+      this.Data = res.pets.$values as P[];
+      this.dataSource = this.Data;
+      this.dataSource = this.dataSource.filter(p => p.petType === "gato");
     });
   }
 
-  LoadMore(){
-    if(this.load >= this.totalEntries){
-      this.service.getPets(this.totalEntries);
-    }else{
-      this.load = this.load+6;
-      this.data();
-    }
-  }
-
-  //== Filter Methods ==//
-  search(){
-    const value = this.searchAll.nativeElement.value;
-    if(value.trim() === '') return;
-    this.service.search(value).subscribe((res)=>{
-      this.dataSource = res as IPets;
-    }); 
-    this.searchAll.nativeElement.value='';
-  }
-
-  searchByColor(){
-    if(this.color.trim() === '') return;
-    const value = parseInt(this.color);
-    this.service.searchColor(value).subscribe((res)=>{
-      this.dataSource = res as IPets;
-    });
-  }
-
-  searchBySex(){
-    this.service.searchSex(this.sex).subscribe((res)=>{
-      this.dataSource = res as IPets;
-    });
+  onSave(petId:number){
+    let favpet = new FavPet();
+    favpet.petIdFk = petId;
+    favpet.userIdFk = this.userLogged;
+    this.service.postFavPet(favpet);
   }
 
   reset(){
     this.data();
   }
 
+  show(){
+    if(this.showFilters){
+      this.showFilters=false;
+    }else{
+      this.showFilters=true;
+    }
+  }
+
+  filters(){
+    this.dataSource = this.Data;
+    let raza = this.form.get('raza')?.value;
+    let color = parseInt(this.form.get('color')?.value);
+    let sex = this.form.get('sex')?.value;
+    let type = this.form.get('type')?.value;
+
+    if(raza.trim() != ''){
+      this.dataSource = this.dataSource.filter(p => p.breed === raza);
+    }
+    if(color != NaN && color !== 0){
+      this.dataSource = this.dataSource.filter(p => p.color === color);
+    }
+    if(sex.trim() != ''){
+      var flag = (sex === 'true');
+      this.dataSource = this.dataSource.filter(p => p.sex === flag);
+    }
+    if(type.trim() != ''){
+      this.dataSource = this.dataSource.filter(p => p.petType === type);
+    }
+  }
+
+  //=== GETERS ===//
+  get raza(){return this.form.get('raza');}
+  get color(){return this.form.get('color');}
+  get sex(){return this.form.get('sex');}
+  get type(){return this.form.get('type');}
+
   //navigate
   goToPetProfile(id:any){
-    this._navigate.goToPetProfile(id);
+    this._navigate.GoToPetProfile(id);
   }
 }

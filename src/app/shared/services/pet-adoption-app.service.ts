@@ -1,20 +1,28 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, tap, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 //models
 import { Pet } from '../Models/pet';
 import { PetViewModel } from '../Models/petViewModel';
 import { FavPet } from '../Models/favPet';
 import { Treatment } from '../Models/treatment';
+import { Breed } from '../Models/breed';
+import { Color } from '../Models/color';
+import { Vacine } from '../Models/vacine';
 
 //interfaces
 import { ITreatments } from '../interfaces/treatment';
 import { PetEntries, P, IPets } from '../interfaces/pets';
 import { IVacines } from '../interfaces/vacine';
-import { Vacine } from '../Models/vacine';
-import {  IUsers } from '../interfaces/user';
+import { IUsers } from '../interfaces/user';
 import { IHealth } from '../interfaces/healthReport';
+import { IColors } from '../interfaces/IColor';
+import { IBreeds } from '../interfaces/IBreed';
+import { IFavs } from '../interfaces/favpets';
+import { Location } from '../Models/location';
+import { ILocation } from '../interfaces/ILocation';
 
 
 @Injectable({
@@ -26,7 +34,8 @@ export class PetAdoptionAppService {
   constructor(private http:HttpClient) { }
 
   private _refresh$ = new Subject<void>();
-  readonly baseURL: string = 'https://localhost:44392/PetApi';
+  readonly port:string = environment.port;
+  readonly baseURL: string = `${this.port}/PetApi`;
   readonly userEndpoint:string = "/UserClient";
   readonly petEndpoint:string = "/Pet";
   readonly treatmentEndpoint:string = "/Treatment";
@@ -34,6 +43,9 @@ export class PetAdoptionAppService {
   readonly LocationEndpoint:string = "/LocationAderess";
   readonly breedEndpoint:string = "/Breed";
   readonly favPetEndpoint:string = "/FavPet";
+  readonly colorEndPoint:string = "/Color";
+  readonly breedEndPoint:string = "/Breed";
+  readonly LocationEndPoint:string = "/LocationAddress";
 
   pets:PetViewModel[] = [];
   pet:PetViewModel = new PetViewModel();
@@ -62,6 +74,16 @@ export class PetAdoptionAppService {
     ).subscribe();
   }
 
+  // === LOCATION === //
+
+  postLocation(location:Location):Observable<ILocation>{
+    return this.http.post<ILocation>(this.baseURL + this.LocationEndPoint, location);
+  }
+
+  updateLocation(location:Location, petId:number){
+    return this.http.put(this.baseURL + this.LocationEndPoint + `/${petId}`, location).subscribe();
+  }
+
   // === PETS === //
 
   getPet(id:number):PetViewModel{
@@ -82,6 +104,8 @@ export class PetAdoptionAppService {
       this.pet.street = res.street;
       this.pet.city = res.city;
       this.pet.state = res.state;
+      this.pet.country = res.country;
+      this.pet.locationId = res.locationId;
     });
 
     return this.pet;
@@ -99,6 +123,10 @@ export class PetAdoptionAppService {
     return this.http.get<PetEntries>(this.baseURL + this.petEndpoint);
   }
 
+  getPetsByUserId(userId:number){
+    return this.http.get(this.baseURL + this.petEndpoint + `/userId?id=${userId}`)
+  }
+
   getPetHealthReport():Observable<IHealth>{
     return this.http.get<IHealth>(this.baseURL + this.petEndpoint + '/healthData');
   }
@@ -107,26 +135,12 @@ export class PetAdoptionAppService {
     return this.http.get<IPets>(this.baseURL + this.petEndpoint + `/limit?value=${limit}`)
   }
 
-  search(value:string):Observable<IPets>{
-    value.toLowerCase();
-    return this.http.get<IPets>(`https://localhost:44392/PetApi/Pet/search?value=${value}`);
-  }
-
-  searchColor(value:number):Observable<IPets>{
-    return this.http.get<IPets>(`https://localhost:44392/PetApi/Pet/color?value=${value}`);
-  }
-
-  searchSex(value:string):Observable<IPets>{
-    return this.http.get<IPets>(`https://localhost:44392/PetApi/Pet/sex?value=${value}`);
-  }
-
   PetCreationsByMonth(){
     return this.http.get( this.baseURL + this.petEndpoint + '/date?');
   }
 
-  postPet(pet:Pet){
-    return this.http.post(this.baseURL + this.petEndpoint, pet)
-    .subscribe((res)=>{console.log(res)}); 
+  postPet(pet:Pet):Observable<P>{
+    return this.http.post<P>(this.baseURL + this.petEndpoint, pet);
   }
 
   updatePet(pet:Pet, id:number){
@@ -169,17 +183,46 @@ export class PetAdoptionAppService {
   }
 
   deleteVacine(id:number){
-    debugger
     return this.http.delete(`${this.baseURL}${this.vacineEndpoint}/${id}`).subscribe();
   }
 
   // === BREED === //
-  getBreedList(){
-    return this.http.get(this.baseURL + this.breedEndpoint);
+  getBreedList():Observable<IBreeds>{
+    return this.http.get<IBreeds>(this.baseURL + this.breedEndpoint);
+  }
+
+  postBreed(breed:Breed){
+    this.http.post(this.baseURL + this.breedEndPoint, breed);
+  }
+
+  deleteBreed(id:number){
+    this.http.delete(this.baseURL + this.breedEndPoint + `/${id}`).subscribe();
   }
 
   // === Fav Pet === //
-  postFavPet(favPet:FavPet){
-    return this.http.post(this.baseURL + this.favPetEndpoint, favPet);
+  getFavPets(userId:number):Observable<PetEntries>{
+    return this.http.get<PetEntries>(this.baseURL + this.favPetEndpoint + `/${userId}`);
   }
+
+  getFavs(userId:number):Observable<IFavs>{
+    return this.http.get<IFavs>(this.baseURL + this.favPetEndpoint + `/user?id=${userId}`);
+  }
+
+  postFavPet(favPet:FavPet){
+    return this.http.post(this.baseURL + this.favPetEndpoint, favPet).subscribe();
+  }
+
+  // === Color === //
+  getColors():Observable<IColors>{
+    return this.http.get<IColors>(this.baseURL + this.colorEndPoint);
+  }
+
+  postColor(color:Color){
+    return this.http.post(this.baseURL + this.colorEndPoint, color).subscribe();
+  }
+
+  deleteColor(id:number){
+    this.http.delete(this.baseURL + this.colorEndPoint + `/${id}`).subscribe();
+  }
+  
 }

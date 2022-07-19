@@ -129,7 +129,7 @@ export class PetProfileInfoComponent implements OnInit {
 
  //== NAVIGATE ==//
   goToEditPet(){
-    this._navigate.goToEditPet(this.petId);
+    this._navigate.GoToEditPet(this.petId);
   }
 
   // == GETTERS ==//

@@ -3,7 +3,3 @@ export class FavPet {
   userIdFk:number=0;
   petIdFk:number=0;
 }
-
-export class FavPetByUser{
-  favPets: FavPet[];
-}

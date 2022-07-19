@@ -9,7 +9,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription, Observable } from 'rxjs';
-import { IUser, IUsers, UserEntries } from '../../../../shared/interfaces/user';
+import { IUsers } from '../../../../shared/interfaces/user';
 
 @Component({
   selector: 'app-user-table',
@@ -74,10 +74,10 @@ export class UserTableComponent implements OnInit {
 
   //=== navigate ===//
   goToUserProfile(id:number){
-    this._navigate.goToUserProfile(id);
+    this._navigate.GoToUserProfile(id);
   }
 
   goToEditUser(id:number){
-    this._navigate.goToEditUser(id);
+    this._navigate.GoToEditUser(id);
   }
 }

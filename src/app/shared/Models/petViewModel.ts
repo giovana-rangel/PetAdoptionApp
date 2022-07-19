@@ -15,4 +15,6 @@ export class PetViewModel {
   street:string='';
   city:string='';
   state:string='';
+  country:string='';
+  locationId:number=0;
 }

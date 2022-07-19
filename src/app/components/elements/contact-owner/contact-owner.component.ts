@@ -30,6 +30,6 @@ export class ContactOwnerComponent implements OnInit {
 
   //navigate
   goToUserProfile(id:any){
-    this.navigate.goToUserProfile(id);
+    this.navigate.GoToUserProfile(id);
   }
 }

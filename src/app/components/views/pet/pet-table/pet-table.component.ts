@@ -75,10 +75,10 @@ export class PetTableComponent implements OnInit {
 
   //=== NAVIGATE ===//
   goToPetProfile(id:number){
-    this._navigate.goToPetProfile(id);
+    this._navigate.GoToPetProfile(id);
   }
 
   goToEditPet(id:number){
-    this._navigate.goToEditPet(id);
+    this._navigate.GoToEditPet(id);
   }
 }

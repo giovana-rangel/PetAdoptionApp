@@ -4,7 +4,6 @@
     <li class="breadcrumb-item active" aria-current="page">Editar</li>
   </ol>
   <h4>Edita tu mascota</h4>
-
   <form class="row" [formGroup]="form" (ngSubmit)="save()">
     <!-- PetName -->
     <mat-form-field class="col-12">
@@ -21,11 +20,34 @@
     </mat-form-field>
 
     <!-- Pet Location -->
-    <mat-form-field appearance="standard" class="col-12">
-      <mat-label>Ubicación</mat-label>
-      <input matInput formControlName="location" required
-      value="{{petVM.street}} {{petVM.number}}, {{petVM.city}}, {{petVM.state}}">
-      <mat-error *ngIf="location?.invalid">La ubicación es requerida</mat-error>
+    <mat-form-field appearance="standard" class="col-2">
+      <mat-label>País</mat-label>
+      <input matInput formControlName="country" required value="{{petVM.country}}">
+      <mat-error *ngIf="country?.invalid">El país es requerido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="col-3">
+      <mat-label>Provincia/Estado</mat-label>
+      <input matInput formControlName="state" required value="{{petVM.state}}">
+      <mat-error *ngIf="state?.invalid">El estado o provincia requerida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="col-3">
+      <mat-label>Ciudad</mat-label>
+      <input matInput formControlName="city" required value="{{petVM.city}}">
+      <mat-error *ngIf="city?.invalid">La ciudad es requerida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="col-3">
+      <mat-label>Calle</mat-label>
+      <input matInput formControlName="street" required value="{{petVM.street}}">
+      <mat-error *ngIf="street?.invalid">La calle es requerida</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" class="col-1">
+      <mat-label>Número</mat-label>
+      <input type="number" matInput formControlName="number" required value="{{petVM.number}}">
+      <mat-error *ngIf="number?.invalid">El número es requerido</mat-error>
     </mat-form-field>
  
     <!-- Pet Type -->

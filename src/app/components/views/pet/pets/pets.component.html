@@ -1,127 +1,130 @@
 <div class="col-12 my-5">
   
   <!-- Filters -->
-  <form autocomplete="off" class="row col-8">
+  <form autocomplete="off" [formGroup]="form" class="row col-sm-12 col-lg-8">
     <!-- Filter By Raza -->
-    <mat-form-field appearance="standard" class="col-10">
-      <mat-label>Buscar Mascotas</mat-label>
-      <input
-      type="text" 
-      matInput 
-      placeholder="Buscar por raza" 
-      (keyup.enter)="search()"
-      #searchAll>
-    </mat-form-field>
-  
-    <div class="col-1" (click)="accordion.openAll()">
-      <i class='bx bx-slider-alt' mat-raised-button matTooltip="filtros"></i>
-    </div>
-    <!-- Others Filters -->
-    <div class="col-1" (click)="reset()">
-      <i class='bx bx-refresh' mat-raised-button matTooltip="resetear"></i>
-    </div>
-  </form>
-
-  <div class="col-8">
-    <mat-accordion class="example-headers-align" multi>
-      <mat-expansion-panel hideToggle>
-        <mat-expansion-panel-header>
-        </mat-expansion-panel-header>
-  
-        <div class="w-100 d-flex justify-content-end" (click)="accordion.closeAll()">
-          <i class='bx bx-x'></i>
-        </div>
-        <div class="w-100 row">
-          <div class="col-2">
-            <mat-button-toggle-group #group="matButtonToggleGroup" 
-            [(ngModel)]="sex" 
-            [ngModelOptions]="{standalone: true}"
-            (click)="searchBySex()">
+    <div class="row">
+      <mat-form-field appearance="standard" class="col-sm-12 col-lg-10">
+        <mat-label>Buscar Mascotas</mat-label>
+        <input
+        type="text" 
+        matInput 
+        placeholder="Buscar por raza" 
+        formControlName="raza"
+        (keyup.enter)="filters()"
+        #searchAll>
+      </mat-form-field>
       
-              <mat-button-toggle value="true" aria-label="female">
-                <i class='bx bx-female-sign'></i>
-              </mat-button-toggle>
-        
-              <mat-button-toggle value="false" aria-label="male">
-                <i class='bx bx-male-sign'></i>
-              </mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
-          <!-- Select Color -->
-          <div class="col-3">
-            <mat-button-toggle-group (click)="searchByColor()" [(ngModel)]="color" [ngModelOptions]="{standalone: true}">
-              <mat-button-toggle value="1">
-                <i class='bx bxs-circle white'></i>
-              </mat-button-toggle>
-              <mat-button-toggle value="2">
-                <i class='bx bxs-circle black'></i>
-              </mat-button-toggle>
-              <mat-button-toggle value="6">
-                <i class='bx bxs-circle grey'></i>
-              </mat-button-toggle>
-              <mat-button-toggle value="5">
-                <i class='bx bxs-circle cream'></i>
-              </mat-button-toggle>
-              <mat-button-toggle value="4">
-                <i class='bx bxs-circle brown'></i>
-              </mat-button-toggle>
-              <mat-button-toggle value="3">
-                <i class='bx bxs-circle yellow'></i>
-              </mat-button-toggle>
-              <mat-button-toggle value="7">
-                <i class='bx bxs-circle orange'></i>
-              </mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
+      <!-- Show other Filters -->
+      <div class="col-sm-4 col-lg-2 d-flex justify-content-between">
+        <div (click)="show()">
+          <i class='bx bx-slider-alt' mat-raised-button matTooltip="filtros"></i>
         </div>
-        
-        
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
-  
-  <!-- Filter By Pet Type -->
-  <div class="col-12 mt-4">
-    <mat-button-toggle-group class="col-6">
-      <mat-button-toggle class="col-3" checked value="1">
-        Gato <i class='bx bxs-cat'></i>
+        <div (click)="reset()">
+          <i class='bx bx-refresh' mat-raised-button matTooltip="Limpiar Filtros"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="row col-lg-8 col-sm-12 d-flex me-3" [ngClass]="{'hidden':showFilters}">
+     
+    <!-- Filter By Pet Sex -->
+    <mat-button-toggle-group 
+    class="col-lg-3" 
+    #group="matButtonToggleGroup" 
+    formControlName="sex" 
+    (click)="filters()">
+    
+      <mat-button-toggle value="false" aria-label="female">
+        <i class='bx bx-female-sign'></i>
       </mat-button-toggle>
-      <mat-button-toggle class="col-3" value="2">
-        Perro <i class='bx bxs-dog' ></i>
+      
+      <mat-button-toggle value="true" aria-label="male">
+        <i class='bx bx-male-sign'></i>
       </mat-button-toggle>
     </mat-button-toggle-group>
-  </div>
- 
+
+    <!-- Filter By Pet Color -->
+    <mat-button-toggle-group 
+    class="col-lg-8"
+    (click)="filters()" 
+    formControlName="color">
+      <mat-button-toggle value="1">
+        <i class='bx bxs-circle white'></i>
+      </mat-button-toggle>
+      <mat-button-toggle value="2">
+        <i class='bx bxs-circle black'></i>
+      </mat-button-toggle>
+      <mat-button-toggle value="6">
+        <i class='bx bxs-circle grey'></i>
+      </mat-button-toggle>
+      <mat-button-toggle value="5">
+        <i class='bx bxs-circle cream'></i>
+      </mat-button-toggle>
+      <mat-button-toggle value="4">
+        <i class='bx bxs-circle brown'></i>
+      </mat-button-toggle>
+      <mat-button-toggle value="3">
+        <i class='bx bxs-circle yellow'></i>
+      </mat-button-toggle>
+      <mat-button-toggle value="7">
+        <i class='bx bxs-circle orange'></i>
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+    
+    </div>
+
+    <!-- Filter By Pet Type -->
+    <div class="row col-12 mt-4">
+      <mat-button-toggle-group class="col-12" formControlName="type">
+
+        <mat-button-toggle class="col-sm-6 col-lg-3" 
+        checked value="gato" 
+        (click)="filters()">
+          Gato <i class='bx bxs-cat'></i>
+        </mat-button-toggle>
+
+        <mat-button-toggle class="col-sm-6 col-lg-3" 
+        value="perro" 
+        (click)="filters()">
+          Perro <i class='bx bxs-dog' ></i>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+  </form>
+
   <!-- Pets Container -->
   <div class="mt-5 row" >
-    <div class="col-lg-4 col-sm-2 mb-5" *ngFor="let p of dataSource.pets.$values">
+    <div class="col-sm-12 col-lg-3 col-sm-2 mb-5" *ngFor="let p of dataSource">
       <!-- Pet Card -->
-      <mat-card class="example-card">    
+      <mat-card class="card">    
         <img mat-card-image src="https://lasillarotarm.blob.core.windows.net.optimalcdn.com/images/2019/05/28/memekieroanvorguesagatitos7.jpg">
-        
-        <button class="favBtn">
+
+        <button class="favBtn" (click)="onSave(p.id)">
           <i class='bx bxs-heart'></i>
         </button>
+
         <!-- Card Data -->
         <mat-card-content class="d-flex justify-content-between" >
           
           <!-- Card Info -->
           <div class="col-10">
-            <mat-card-title (click)="goToPetProfile(p.id)">
+            <mat-card-title class="mb-4" (click)="goToPetProfile(p.id)">
               {{p.name | titlecase}}
             </mat-card-title>
 
-            <mat-card-subtitle 
+            <mat-card-subtitle class="d-flex align-items-center"
             *ngIf="p.street != '' && p.city != '' && p.number != 0 ">
-              <a href="#">
-                <i class='bx bxs-map'></i>
+              <i class='bx bxs-map'></i>  
+              <a href="#" >
                 {{p.street}}, {{p.number}}, {{p.city}}, {{p.state}}             
               </a>
             </mat-card-subtitle>
           </div>
 
           <!-- Card Icon -->
-          <div *ngIf="p.sex == 0; else female">
+          <div *ngIf="p.sex == true; else female">
             <i class='bx bx-male-sign pet-icon'></i>
           </div>
           <div>
@@ -135,10 +138,10 @@
     </div> 
   </div>
 
-  <div class="row d-flex justify-content-center">
-    <button class="col-4 load" (click)="LoadMore()">
+  <!-- <div class="row d-flex justify-content-center">
+    <button class="col-4 load">
       Load More
     </button>
-  </div>
+  </div> -->
   
 </div>

@@ -9,6 +9,7 @@ import { NavigateService } from 'src/app/shared/services/navigate.service';
 export class ToolBarComponent implements OnInit {
   hidden = false;
   showSidebar = false;
+  showMenu = false;
   notifications = true;
 
   constructor(private _navigate : NavigateService) {}
@@ -24,12 +25,19 @@ export class ToolBarComponent implements OnInit {
       this.showSidebar=false;
     }else{
       this.showSidebar=true;
+      this.showMenu=false;
     }
-    
+  }
+
+  toggleMenuVisiblility(){
+    if(this.showMenu){
+      this.showMenu=false;
+    }else{
+      this.showMenu=true;
+      this.showSidebar=false;
+    }
   }
 
   //Navigate
-  goToCreatePet(){  
-    this._navigate.goToCreatePet();
-  }
+  goToCreatePet(){  this._navigate.GoToCreatePet();}
 }

@@ -7,6 +7,8 @@ import { PetAdoptionAppService } from 'src/app/shared/services/pet-adoption-app.
 //== Models and Interfaces ==//
 import { Pet } from 'src/app/shared/Models/pet';
 import { PetViewModel } from '../../../../shared/Models/petViewModel';
+import { Location } from 'src/app/shared/Models/location';
+import { P } from '../../../../shared/interfaces/pets';
 
 @Component({
   selector: 'app-edit-pet',
@@ -15,30 +17,26 @@ import { PetViewModel } from '../../../../shared/Models/petViewModel';
 })
 
 export class EditPetComponent implements OnInit {
-  id:number = Number(this.activatedRoute.snapshot.paramMap.get('id'));;
-
+  id:number = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+  location = new Location();
+  petVM = new PetViewModel();
   form = new FormGroup({
-    name: new FormControl('',[Validators.required]),
+    name: new FormControl(this.petVM.name,[Validators.required]),
     bio: new FormControl('',[Validators.maxLength(250)]),
     sex: new FormControl('',[Validators.required]),
     age: new FormControl('',[Validators.required]),
     weight: new FormControl('',[Validators.required]),
     breed: new FormControl('',[Validators.required]),
     color: new FormControl('',[Validators.required]),
-    location: new FormControl('',[Validators.required]),
+    country: new FormControl('',[Validators.required]),
+    state: new FormControl('',[Validators.required]),
+    city: new FormControl('',[Validators.required]),
+    street: new FormControl('',[Validators.required]),
+    number: new FormControl('',[Validators.required]),
     petType: new FormControl('',[Validators.required]),
     isAdopted: new FormControl('0',[Validators.required]),
-    treatmentLabel: new FormControl('',[Validators.required]),
-    treatmentDate: new FormControl('',[Validators.required]),
   });
 
-  fv = new FormGroup({
-    label: new FormControl('',[Validators.required]),
-    place: new FormControl('',[Validators.required]),
-    date: new FormControl('',[Validators.required])
-  });
-
-  petVM:PetViewModel = new PetViewModel();
   pet:Pet = new Pet();
   breedList:any;
   successMsg:string='';
@@ -48,8 +46,7 @@ export class EditPetComponent implements OnInit {
   (
     public service:PetAdoptionAppService,
     private activatedRoute:ActivatedRoute,
-  ) 
-  { }
+  ){}
 
   ngOnInit(): void {
     this.getBreedList();
@@ -57,7 +54,7 @@ export class EditPetComponent implements OnInit {
   }
 
   //== SERVICE CALLS ==//
-  getPet():void {
+  getPet() {
     this.petVM = this.service.getPet(this.id);
   }
 
@@ -70,10 +67,12 @@ export class EditPetComponent implements OnInit {
 
   save(){
     try{
-      this.setPetData();
-      this.service.updatePet(this.pet, this.id);
-      this.successMsg = 'Guardado exitosamente';
-      window.location.reload()
+      if(this.form.valid){
+        this.setPetData();
+        this.setLocationData();
+        this.successMsg = 'Guardado exitosamente';
+        window.location.reload()
+      }
     }catch(err){
       this.errorMsg = 'Algo salió mal...';
     }
@@ -83,7 +82,7 @@ export class EditPetComponent implements OnInit {
   setPetData(){
     this.pet.id = this.id;
     this.pet.userIdFk = 1;
-    this.pet.locationIdFk = 1;
+    this.pet.locationIdFk = this.petVM.locationId;
     this.pet.imageIdFk = null;
     this.pet.petName = this.form.get('name')?.value;
     this.pet.bio = this.form.get('bio')?.value;
@@ -94,6 +93,19 @@ export class EditPetComponent implements OnInit {
     this.pet.breedIdFk = parseInt(this.form.get('breed')?.value);
     this.pet.colorIdFk = parseInt(this.form.get('color')?.value);;
     this.pet.petTypeIdFk = parseInt(this.form.get('petType')?.value);
+
+    this.service.updatePet(this.pet, this.id);
+  }
+
+  setLocationData(){
+    this.location.id = this.petVM.locationId;
+    this.location.country = this.form.get('country')?.value;
+    this.location.state = this.form.get('state')?.value;
+    this.location.city = this.form.get('city')?.value;
+    this.location.street = this.form.get('street')?.value;
+    this.location.number = parseInt(this.form.get('number')?.value);
+
+    this.service.updateLocation(this.location, this.petVM.locationId);
   }
 
   //== GETTERS ==//
@@ -104,7 +116,11 @@ export class EditPetComponent implements OnInit {
   get weight(){return this.form.get('weight');}
   get breed(){return this.form.get('breed');}
   get color(){return this.form.get('color');}
-  get location(){return this.form.get('location');}
+  get country(){return this.form.get('country');}
+  get state(){return this.form.get('state');}
+  get city(){return this.form.get('city');}
+  get street(){return this.form.get('street');}
+  get number(){return this.form.get('number');}
   get petType(){return this.form.get('petType');}
   get isAdopted(){return this.form.get('isAdopted');}
 }

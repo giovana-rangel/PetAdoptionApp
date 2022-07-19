@@ -20,12 +20,36 @@
     </mat-form-field>  
     
     <!-- Location -->
-    <mat-form-field class="col-12">
-      <mat-label>Ubicación</mat-label>
-      <input matInput formControlName="location">
-      <mat-error *ngIf="location?.invalid">La ubicación es requerida</mat-error>
-    </mat-form-field>   
-    
+    <mat-form-field class="col-2">
+      <mat-label>País</mat-label>
+      <input matInput formControlName="country">
+      <mat-error *ngIf="country?.invalid">El país es requerido</mat-error>
+    </mat-form-field>  
+
+    <mat-form-field class="col-3">
+      <mat-label>Provincia o Estado</mat-label>
+      <input matInput formControlName="state">
+      <mat-error *ngIf="state?.invalid">La provincia es requerida</mat-error>
+    </mat-form-field>  
+
+    <mat-form-field class="col-3">
+      <mat-label>Ciudad</mat-label>
+      <input matInput formControlName="city">
+      <mat-error *ngIf="city?.invalid">La ciudad es requerida</mat-error>
+    </mat-form-field>  
+
+    <mat-form-field class="col-3">
+      <mat-label>Calle</mat-label>
+      <input matInput formControlName="street">
+      <mat-error *ngIf="street?.invalid">La calle es requerida</mat-error>
+    </mat-form-field>  
+
+    <mat-form-field class="col-1">
+      <mat-label>Número</mat-label>
+      <input matInput formControlName="number">
+      <mat-error *ngIf="number?.invalid">El número es requerido</mat-error>
+    </mat-form-field>  
+
     <!-- Age -->
     <mat-form-field class="col-4">
       <mat-label>Edad</mat-label>

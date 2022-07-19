@@ -6,16 +6,13 @@ import { HttpClientModule } from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { environment } from './../environments/environment';
-import { GeoapifyGeocoderAutocompleteModule } from '@geoapify/angular-geocoder-autocomplete';
 import { NgApexchartsModule } from 'ng-apexcharts';
+
 //components
 import { AppComponent } from './app.component';
 import { MainMenuComponent } from './components/elements/main-menu/main-menu.component';
 import { ToolBarComponent } from './components/elements/tool-bar/tool-bar.component';
-import { SelectLocationComponent } from './components/elements/select-location/select-location.component';
 import { SearchBarComponent } from './components/elements/search-bar/search-bar.component';
-import { AdminDashComponent } from './components/views/admin-dash/admin-dash.component';
 import { UserTableComponent } from './components/views/user/user-table/user-table.component';
 import { UserProfileComponent } from './components/views/user/user-profile/user-profile.component';
 import { HomeComponent } from './components/views/home/home.component';
@@ -27,10 +24,16 @@ import { PetProfileInfoComponent } from './components/views/pet/pet-profile-info
 import { ContactOwnerComponent } from './components/elements/contact-owner/contact-owner.component';
 import { CreatePetComponent } from './components/views/pet/create-pet/create-pet.component';
 import { PetTableComponent } from './components/views/pet/pet-table/pet-table.component';
-import { ChartsComponent } from './components/views/admin-dash/charts/charts.component';
-import { TopFavPetsComponent } from './components/views/admin-dash/top-fav-pets/top-fav-pets.component';
+import { ChartsComponent } from './components/views/admin-dash/analitics/charts/charts.component';
+import { TopFavPetsComponent } from './components/views/admin-dash/analitics/top-fav-pets/top-fav-pets.component';
 import { FavPetComponent } from './components/views/fav-pet/fav-pet.component';
 import { ChatroomComponent } from './components/views/chatroom/chatroom.component';
+import { AnaliticsComponent } from './components/views/admin-dash/analitics/analitics.component';
+import { UserSettingsComponent } from './components/views/admin-dash/user-settings/user-settings.component';
+import { PetsSettingsComponent } from './components/views/admin-dash/pets-settings/pets-settings.component';
+import { SettingsComponent } from './components/views/admin-dash/settings/settings.component';
+import { AdminComponent } from './components/views/admin-dash/dashboard/admin.component';
+import { ListComponent } from './components/views/pet/list/list.component';
 
 
 @NgModule({
@@ -38,9 +41,7 @@ import { ChatroomComponent } from './components/views/chatroom/chatroom.componen
     AppComponent,
     MainMenuComponent,
     ToolBarComponent,
-    SelectLocationComponent,
     SearchBarComponent,
-    AdminDashComponent,
     UserTableComponent,
     UserProfileComponent,
     HomeComponent,
@@ -55,7 +56,13 @@ import { ChatroomComponent } from './components/views/chatroom/chatroom.componen
     ChartsComponent,
     TopFavPetsComponent,
     FavPetComponent,
-    ChatroomComponent,  
+    ChatroomComponent,
+    AnaliticsComponent,
+    UserSettingsComponent,
+    PetsSettingsComponent,
+    SettingsComponent,
+    AdminComponent,
+    ListComponent,  
   ],
   imports: [
     BrowserModule,
@@ -66,7 +73,6 @@ import { ChatroomComponent } from './components/views/chatroom/chatroom.componen
     FormsModule, 
     ReactiveFormsModule,
     NgApexchartsModule,
-    GeoapifyGeocoderAutocompleteModule.withConfig(environment.mapApiKey),
   ],
   providers: [],
   bootstrap: [AppComponent]
