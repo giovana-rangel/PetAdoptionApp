@@ -76,9 +76,9 @@ export class PetAdoptionAppService {
 
   // === LOCATION === //
 
-  postLocation(location:Location):Observable<ILocation>{
-    return this.http.post<ILocation>(this.baseURL + this.LocationEndPoint, location);
-  }
+  // postLocation(location:Location):Observable<ILocation>{
+  //   return this.http.post<ILocation>(this.baseURL + this.LocationEndPoint, location); 
+  // }
 
   updateLocation(location:Location, petId:number){
     return this.http.put(this.baseURL + this.LocationEndPoint + `/${petId}`, location).subscribe();
@@ -143,9 +143,8 @@ export class PetAdoptionAppService {
     return this.http.post<P>(this.baseURL + this.petEndpoint, pet);
   }
 
-  updatePet(pet:Pet, id:number){
-    return this.http.put(this.baseURL + this.petEndpoint + '/' + id, pet)
-    .subscribe();
+  updatePet(pet:Pet, locationId:number){
+    return this.http.put(this.baseURL + this.petEndpoint + '/' + locationId, pet).subscribe();
   }
 
   deletePet(id:number){
@@ -192,7 +191,7 @@ export class PetAdoptionAppService {
   }
 
   postBreed(breed:Breed){
-    this.http.post(this.baseURL + this.breedEndPoint, breed);
+    this.http.post(this.baseURL + this.breedEndPoint, breed).subscribe();
   }
 
   deleteBreed(id:number){

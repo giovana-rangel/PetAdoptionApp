@@ -7,8 +7,7 @@
       <mat-form-field class="row col-12 example-chip-list" appearance="fill">
         <mat-label>Agrega o elimina colores</mat-label>
         <mat-chip-list #chipList1 aria-label="Fruit selection">
-          <mat-chip class="d-flex align-items-center"
-            *ngFor="let c of colors.$values">
+          <mat-chip class="d-flex align-items-center" *ngFor="let c of colors.$values">
             {{c.color1}}
             <button matChipRemove (click)="onDelete('color', c.id)">
               <i class='bx bxs-x-circle'></i>
@@ -55,7 +54,7 @@
       <h5 >Razas de perros disponibles</h5>
       <mat-form-field class="row col-12" appearance="fill">
         <mat-label>Agrega o elimina razas</mat-label>
-        <mat-chip-list #chipList2>
+        <mat-chip-list #chipList3>
           <div *ngFor="let b of breeds.$values">
             <mat-chip *ngIf="b.petTypeIdFk == 2">
               {{b.breed1}}
@@ -65,10 +64,10 @@
             </mat-chip>
           </div>
           <input
-            #breedInput
+            #breedInput2
             placeholder="Nueva Raza..."
-            [formControl]="breedCtrl"
-            [matChipInputFor]="chipList2"
+            [formControl]="breedCtrl2"
+            [matChipInputFor]="chipList3"
             (keyup.enter)="postBreed(2)">
         </mat-chip-list>
       </mat-form-field>

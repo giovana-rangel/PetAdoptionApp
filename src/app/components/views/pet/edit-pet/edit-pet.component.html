@@ -79,13 +79,24 @@
     <!-- Pet Breed -->
     <mat-form-field class="col-4">
       <mat-label>Raza</mat-label>
-      <mat-select formControlName="breed"> 
-        <mat-option *ngFor="let b of breedList.$values" value="{{b.id}}">
-          {{b.breed1}}
-        </mat-option>
+      <mat-select formControlName="breed" *ngIf="form.get('petType')?.value === '1';else dog">
+        <div *ngFor="let b of breedList">
+          <mat-option *ngIf="b.petTypeIdFk === 1"  value="{{b.id}}">
+            {{b.breed1}}
+          </mat-option>
+        </div>  
       </mat-select>
+      <ng-template #dog>
+        <mat-select formControlName="breed">
+          <div *ngFor="let b of breedList">
+            <mat-option *ngIf="b.petTypeIdFk === 2"  value="{{b.id}}">
+              {{b.breed1}}
+            </mat-option>
+          </div>
+        </mat-select>
+      </ng-template>
     </mat-form-field>
-     
+
     <!-- Pet Color -->  
     <div class="col-4">
       <mat-button-toggle-group formControlName="color">

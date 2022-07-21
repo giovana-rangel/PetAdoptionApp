@@ -6,6 +6,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { P } from 'src/app/shared/interfaces/pets';
 import { IFavs, IFav } from '../../../../shared/interfaces/favpets';
 import { FavPet } from 'src/app/shared/Models/favPet';
+import { UpperCasePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pets',
@@ -74,7 +75,7 @@ export class PetsComponent implements OnInit {
     let raza = this.form.get('raza')?.value;
     let color = parseInt(this.form.get('color')?.value);
     let sex = this.form.get('sex')?.value;
-    let type = this.form.get('type')?.value;
+    let type = this.form.get('type')?.value ;
 
     if(raza.trim() != ''){
       this.dataSource = this.dataSource.filter(p => p.breed === raza);
@@ -87,7 +88,8 @@ export class PetsComponent implements OnInit {
       this.dataSource = this.dataSource.filter(p => p.sex === flag);
     }
     if(type.trim() != ''){
-      this.dataSource = this.dataSource.filter(p => p.petType === type);
+      this.dataSource = this.dataSource
+      .filter(p => p.petType.toLowerCase() === type.toLowerCase());
     }
   }
 

@@ -6,6 +6,7 @@ import { Location } from 'src/app/shared/Models/location';
 import { ILocation } from '../../../../shared/interfaces/ILocation';
 import { P } from '../../../../shared/interfaces/pets';
 import { NavigateService } from '../../../../shared/services/navigate.service';
+import { IBreed } from '../../../../shared/interfaces/IBreed';
 
 @Component({
   selector: 'app-create-pet',
@@ -30,10 +31,8 @@ export class CreatePetComponent implements OnInit {
     petType: new FormControl('1',[Validators.required]),
   });
 
-  breedList:any;
+  breedList:IBreed[];
   pet:Pet = new Pet();
-  location = new Location();
-  address:ILocation;
   p:P;
   
   constructor(
@@ -47,17 +46,14 @@ export class CreatePetComponent implements OnInit {
 
   //== HTTP CALLS ==//
   getBreedList(){
-    this._service.getBreedList().subscribe(res=>{this.breedList = res;});
+    this._service.getBreedList().subscribe(res=>{this.breedList = res.$values;});
   }
 
-  save(){
-    debugger
+  async save(){
     if(this.form.valid){
       try
       {
-        this.setLocationData();
-        this.setPetData();
-        this.GoToPetProfile();
+        await this.setPetData();
       }catch(err:any){
         console.error(err);
       }
@@ -67,39 +63,32 @@ export class CreatePetComponent implements OnInit {
   }
 
   //== METHODS ==//
-  setPetData(){
-    this.pet.id = 0;
-    this.pet.userIdFk = 1;
-    this.pet.isAdopted = 0;
-    this.pet.locationIdFk = this.address.id;
-    this.pet.petName = this.form.get('name')?.value;
-    this.pet.bio = this.form.get('bio')?.value;
-    this.pet.sex = parseInt(this.form.get('sex')?.value);
-    this.pet.age = parseInt(this.form.get('age')?.value);
-    this.pet.petWeight = parseFloat(this.form.get('weight')?.value);
-    this.pet.breedIdFk = parseInt(this.form.get('breed')?.value);
-    this.pet.colorIdFk = parseInt(this.form.get('color')?.value);
-    this.pet.petTypeIdFk = parseInt(this.form.get('petType')?.value);
+  async setPetData(){
+    try
+    {
+      this.pet.userIdFk = 1;
+      this.pet.isAdopted = 0;
+      this.pet.petName = this.form.get('name')?.value;
+      this.pet.bio = this.form.get('bio')?.value;
+      this.pet.sex = parseInt(this.form.get('sex')?.value);
+      this.pet.age = parseInt(this.form.get('age')?.value);
+      this.pet.petWeight = parseFloat(this.form.get('weight')?.value);
+      this.pet.breedIdFk = parseInt(this.form.get('breed')?.value);
+      this.pet.colorIdFk = parseInt(this.form.get('color')?.value);
+      this.pet.petTypeIdFk = parseInt(this.form.get('petType')?.value);
+      this.pet.country = this.form.get('country')?.value;
+      this.pet.state = this.form.get('state')?.value;
+      this.pet.city = this.form.get('city')?.value;
+      this.pet.street = this.form.get('street')?.value;
+      this.pet.number = parseInt(this.form.get('number')?.value);
 
-    this._service.postPet(this.pet).subscribe((res)=>{
-      this.p = res as P;
-      console.log(this.p);
-    });
-  }
-
-  setLocationData(){
-    this.location.country = this.form.get('country')?.value;
-    this.location.state = this.form.get('state')?.value;
-    this.location.city = this.form.get('city')?.value;
-    this.location.street = this.form.get('street')?.value;
-    this.location.number = parseInt(this.form.get('number')?.value);
-
-    this._service.postLocation(this.location).subscribe((res)=>{
-      this.address = res as ILocation;
-      console.log(this.address);
-    });
-
-    
+      await this._service.postPet(this.pet).subscribe((res)=>{
+        this.p = res as P;
+        this.navigate.GoToPetProfile(this.p.id);
+      });
+    }catch(err){
+      console.log(err);
+    } 
   }
 
   //=== GETTERS ==//
@@ -118,8 +107,4 @@ export class CreatePetComponent implements OnInit {
   get street(){return this.form.get('street');}
   get number(){return this.form.get('number');}
   
-  //=== NAVIGATION ==//
-  GoToPetProfile(){
-    this.navigate.GoToPetProfile(this.p.id);
-  }
 }

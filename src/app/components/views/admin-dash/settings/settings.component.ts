@@ -1,13 +1,12 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { Observable } from 'rxjs';
 
 import { IColors } from 'src/app/shared/interfaces/IColor';
 import { PetAdoptionAppService } from '../../../../shared/services/pet-adoption-app.service';
 import { Color } from 'src/app/shared/Models/color';
 import { IBreeds } from '../../../../shared/interfaces/IBreed';
 import { Breed } from '../../../../shared/Models/breed';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -15,9 +14,11 @@ import { Breed } from '../../../../shared/Models/breed';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
+  subscription:Subscription;
   colorCtrl = new FormControl('');
   breedCtrl = new FormControl('');
-  // filteredColors: Observable<string[]>;
+  breedCtrl2 = new FormControl('');
+
   colors:IColors;
   color:Color = new Color();
   breeds:IBreeds;
@@ -25,11 +26,15 @@ export class SettingsComponent implements OnInit {
 
   @ViewChild('colorInput') colorInput: ElementRef<HTMLInputElement>;
   @ViewChild('breedInput') breedInput: ElementRef<HTMLInputElement>;
+  @ViewChild('breedInput2') breedInput2: ElementRef<HTMLInputElement>;
 
   constructor(private service:PetAdoptionAppService) { }
 
   ngOnInit(): void {
     this.data();
+    this.subscription = this.service.refresh.subscribe(() => {
+      this.data();
+    });
   }
 
   data(){
@@ -50,22 +55,25 @@ export class SettingsComponent implements OnInit {
     this.color.color1 = this.colorCtrl.value;
     this.service.postColor(this.color);
     this.colorInput.nativeElement.value='';
+    this.data();
   }
 
   postBreed(petType:number){
-    if(this.breedCtrl.value.trim() === '') return;
-
-    this.breed.breed = this.colorCtrl.value;
-    
+    this.breed.id=0;
     if(petType == 1){
       //set petType as cat
-      this.breed.petType = 1;
+      if(this.breedCtrl.value.trim() === '')return;
+      this.breed.breed1 = this.breedCtrl.value;
+      this.breed.petTypeIdFk = 1;
     }else{
       //set petType as dog
-      this.breed.petType = 2;
+      if(this.breedCtrl2.value.trim() === '') return;
+      this.breed.breed1 = this.breedCtrl2.value;
+      this.breed.petTypeIdFk = 2; 
     }
 
     this.service.postBreed(this.breed);
     this.breedInput.nativeElement.value='';
+    this.data();
   }
 }

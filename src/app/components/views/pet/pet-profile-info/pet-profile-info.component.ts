@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, OnDestroy} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -20,7 +20,7 @@ import { Vacine } from '../../../../shared/Models/vacine';
   styleUrls: ['./pet-profile-info.component.css']
 })
 
-export class PetProfileInfoComponent implements OnInit {
+export class PetProfileInfoComponent implements OnInit, OnDestroy{
   @ViewChild('mapsUrl') mapsUrl: ElementRef;
   url:string;
 
@@ -53,6 +53,10 @@ export class PetProfileInfoComponent implements OnInit {
     this.getPetData();
     this.getTreatmentsByPetId()
     this.getVacinesByPetId();
+  }
+
+  ngOnDestroy(){
+    window.location.reload();
   }
 
   //== SERVICE CALLS ==//
